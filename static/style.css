@@ -578,24 +578,24 @@ body {
     animation: starsTwinkleC 1.8s ease-in-out infinite alternate;
 }
 
-/* Multi-Phased Constant Twinkling Keyframes */
+/* Multi-Phased Stationary Brightness-Fluctuating Twinkle Keyframes */
 @keyframes starsTwinkleA {
-    0% { opacity: 0.5; transform: scale(0.98); }
-    50% { opacity: 1; transform: scale(1.02); }
-    100% { opacity: 0.75; transform: scale(1); }
+    0% { opacity: 0.3; filter: brightness(0.85); }
+    50% { opacity: 1; filter: brightness(1.3); }
+    100% { opacity: 0.55; filter: brightness(0.95); }
 }
 
 @keyframes starsTwinkleB {
-    0% { opacity: 0.95; transform: scale(1.02); }
-    50% { opacity: 0.45; transform: scale(0.97); }
-    100% { opacity: 0.85; transform: scale(1.01); }
+    0% { opacity: 0.95; filter: brightness(1.25); }
+    50% { opacity: 0.25; filter: brightness(0.8); }
+    100% { opacity: 0.8; filter: brightness(1.1); }
 }
 
 @keyframes starsTwinkleC {
-    0% { opacity: 0.4; }
-    30% { opacity: 0.9; }
-    70% { opacity: 0.5; }
-    100% { opacity: 1; }
+    0% { opacity: 0.2; }
+    35% { opacity: 0.95; filter: brightness(1.4); }
+    70% { opacity: 0.35; filter: brightness(0.9); }
+    100% { opacity: 1; filter: brightness(1.3); }
 }
 
 /* Continuous Shooting Stars Layer (Left to Right Sweep) */
