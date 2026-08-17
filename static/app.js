@@ -1,88 +1,267 @@
 /**
- * Smart Teams & Google Tasks Sync Hub - Frontend Logic
- * Evening Sky (Light Mode) & Moonlit Twilight (Dark Mode) Theme Engine & Chart.js Integration
+ * Smart Teams & Google Tasks Sync Hub - Visual Engine & Frontend Logic
+ * Multi-Atmosphere Palettes, Dynamic Chart.js Gradients, Shooting Stars & Controls
  */
 
 let subjectChartInstance = null;
 let currentChartMode = 'bar'; // 'bar' or 'doughnut'
 let cachedSubjectData = {};
+let shootingStarTimer = null;
 
-// 🌆 Evening Sky Palette (Light Mode)
-const EVENING_SUBJECT_COLORS = {
-    'Robotics': { bg: '#4164B3', border: '#315099' },      // Dusk Sky Indigo
-    'DSA': { bg: '#E84D67', border: '#CF3750' },           // Sunset Coral
-    'DSA Lab': { bg: '#F472B6', border: '#E8559E' },       // Cotton Candy Rose
-    'EM-III': { bg: '#6B4E9B', border: '#583D84' },        // Twilight Lilac
-    'Python Prog': { bg: '#0284C7', border: '#0369A1' },    // Sky Cerulean
-    'Python Lab': { bg: '#16A34A', border: '#15803D' },     // Emerald Green
-    'ECA': { bg: '#D97706', border: '#B45309' },            // Sunset Gold
-    'EDC': { bg: '#E11D48', border: '#BE123C' },            // Deep Crimson
-    'Tech Writing': { bg: '#8B5CF6', border: '#7C3AED' },   // Twilight Mist
+// Atmosphere Palette Theme Mappings for Chart Gradients
+const THEME_CHART_COLORS = {
+    // 🌆 Evening Sunset Sky
+    'evening': {
+        'Robotics': { start: '#4164B3', end: '#6A8DD6', border: '#315099' },
+        'DSA': { start: '#E84D67', end: '#F68F9F', border: '#CF3750' },
+        'DSA Lab': { start: '#F472B6', end: '#FBBF24', border: '#E8559E' },
+        'EM-III': { start: '#6B4E9B', end: '#9D88CE', border: '#583D84' },
+        'Python Prog': { start: '#0284C7', end: '#38BDF8', border: '#0369A1' },
+        'Python Lab': { start: '#16A34A', end: '#4ADE80', border: '#15803D' },
+        'ECA': { start: '#D97706', end: '#FCD34D', border: '#B45309' },
+        'EDC': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
+        'Tech Writing': { start: '#8B5CF6', end: '#C084FC', border: '#7C3AED' }
+    },
+    // 🌅 Dawn Sunrise
+    'dawn': {
+        'Robotics': { start: '#C2410C', end: '#F97316', border: '#9A3412' },
+        'DSA': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
+        'DSA Lab': { start: '#F43F5E', end: '#FDA4AF', border: '#E11D48' },
+        'EM-III': { start: '#9333EA', end: '#C084FC', border: '#7E22CE' },
+        'Python Prog': { start: '#0284C7', end: '#38BDF8', border: '#0369A1' },
+        'Python Lab': { start: '#16A34A', end: '#4ADE80', border: '#15803D' },
+        'ECA': { start: '#D97706', end: '#FCD34D', border: '#B45309' },
+        'EDC': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
+        'Tech Writing': { start: '#8B5CF6', end: '#C084FC', border: '#7C3AED' }
+    },
+    // ☀️ Daylight Azure
+    'day': {
+        'Robotics': { start: '#2563EB', end: '#60A5FA', border: '#1D4ED8' },
+        'DSA': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
+        'DSA Lab': { start: '#DB2777', end: '#F472B6', border: '#BE185D' },
+        'EM-III': { start: '#6366F1', end: '#A5B4FC', border: '#4F46E5' },
+        'Python Prog': { start: '#0284C7', end: '#38BDF8', border: '#0369A1' },
+        'Python Lab': { start: '#16A34A', end: '#4ADE80', border: '#15803D' },
+        'ECA': { start: '#D97706', end: '#FBBF24', border: '#B45309' },
+        'EDC': { start: '#EF4444', end: '#F87171', border: '#DC2626' },
+        'Tech Writing': { start: '#8B5CF6', end: '#C084FC', border: '#7C3AED' }
+    },
+    // 🌕 Moonlit Twilight Plum (Artwork Dark Theme)
+    'twilight': {
+        'Robotics': { start: '#7A9CE6', end: '#A4B8E9', border: '#5B82EA' },
+        'DSA': { start: '#F68F9F', end: '#FDA4AF', border: '#EE7487' },
+        'DSA Lab': { start: '#FB7185', end: '#FECDD3', border: '#F43F5E' },
+        'EM-III': { start: '#9D88CE', end: '#C4B5FD', border: '#8B74B5' },
+        'Python Prog': { start: '#4A8EC2', end: '#7DD3FC', border: '#3576A8' },
+        'Python Lab': { start: '#34D399', end: '#6EE7B7', border: '#10B981' },
+        'ECA': { start: '#FCD34D', end: '#FEF08A', border: '#F59E0B' },
+        'EDC': { start: '#FB7185', end: '#FDA4AF', border: '#F43F5E' },
+        'Tech Writing': { start: '#B5A4DD', end: '#E9D5FF', border: '#9D88CE' }
+    },
+    // 🌌 Deep Midnight Space
+    'midnight': {
+        'Robotics': { start: '#38BDF8', end: '#7DD3FC', border: '#0284C7' },
+        'DSA': { start: '#F43F5E', end: '#FDA4AF', border: '#E11D48' },
+        'DSA Lab': { start: '#EC4899', end: '#F472B6', border: '#DB2777' },
+        'EM-III': { start: '#818CF8', end: '#C7D2FE', border: '#6366F1' },
+        'Python Prog': { start: '#06B6D4', end: '#67E8F9', border: '#0891B2' },
+        'Python Lab': { start: '#34D399', end: '#A7F3D0', border: '#10B981' },
+        'ECA': { start: '#FBBF24', end: '#FDE68A', border: '#D97706' },
+        'EDC': { start: '#F43F5E', end: '#FDA4AF', border: '#E11D48' },
+        'Tech Writing': { start: '#A855F7', end: '#E9D5FF', border: '#9333EA' }
+    },
+    // 🌲 Aurora Borealis
+    'aurora': {
+        'Robotics': { start: '#2DD4BF', end: '#99F6E4', border: '#0D9488' },
+        'DSA': { start: '#F472B6', end: '#FBCFE8', border: '#DB2777' },
+        'DSA Lab': { start: '#FB7185', end: '#FECDD3', border: '#F43F5E' },
+        'EM-III': { start: '#A78BFA', end: '#DDD6FE', border: '#8B5CF6' },
+        'Python Prog': { start: '#38BDF8', end: '#BAE6FD', border: '#0284C7' },
+        'Python Lab': { start: '#34D399', end: '#A7F3D0', border: '#10B981' },
+        'ECA': { start: '#FCD34D', end: '#FEF08A', border: '#F59E0B' },
+        'EDC': { start: '#FB7185', end: '#FDA4AF', border: '#F43F5E' },
+        'Tech Writing': { start: '#C084FC', end: '#F3E8FF', border: '#A855F7' }
+    },
+    // 🌸 Sakura Dusk
+    'sakura': {
+        'Robotics': { start: '#DB2777', end: '#F472B6', border: '#BE185D' },
+        'DSA': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
+        'DSA Lab': { start: '#F43F5E', end: '#FDA4AF', border: '#E11D48' },
+        'EM-III': { start: '#9333EA', end: '#C084FC', border: '#7E22CE' },
+        'Python Prog': { start: '#0284C7', end: '#38BDF8', border: '#0369A1' },
+        'Python Lab': { start: '#16A34A', end: '#4ADE80', border: '#15803D' },
+        'ECA': { start: '#D97706', end: '#FCD34D', border: '#B45309' },
+        'EDC': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
+        'Tech Writing': { start: '#8B5CF6', end: '#C084FC', border: '#7C3AED' }
+    }
 };
 
-// 🌕 Moonlit Twilight Palette (Dark Mode - Restored from Artwork)
-const NIGHT_SUBJECT_COLORS = {
-    'Robotics': { bg: '#7A9CE6', border: '#5B82EA' },      // Luminous Periwinkle Sky
-    'DSA': { bg: '#F68F9F', border: '#EE7487' },           // Sunset Cloud Peach / Coral
-    'DSA Lab': { bg: '#FB7185', border: '#F43F5E' },       // Cotton Candy Rose
-    'EM-III': { bg: '#9D88CE', border: '#8B74B5' },        // Twilight Lilac / Plum
-    'Python Prog': { bg: '#4A8EC2', border: '#3576A8' },    // Luminous Sky Blue
-    'Python Lab': { bg: '#34D399', border: '#10B981' },     // Sage Jade
-    'ECA': { bg: '#FCD34D', border: '#F59E0B' },            // Moonbeam Gold
-    'EDC': { bg: '#FB7185', border: '#F43F5E' },            // Deep Sunset Rose
-    'Tech Writing': { bg: '#B5A4DD', border: '#9D88CE' },   // Dusty Lilac
-};
-
-const FALLBACK_COLORS = [
-    { bg: '#4164B3', border: '#315099' },
-    { bg: '#E84D67', border: '#CF3750' },
-    { bg: '#6B4E9B', border: '#583D84' },
-    { bg: '#D97706', border: '#B45309' },
-    { bg: '#0284C7', border: '#0369A1' },
-    { bg: '#16A34A', border: '#15803D' },
+const FALLBACK_GRADIENTS = [
+    { start: '#4164B3', end: '#6A8DD6', border: '#315099' },
+    { start: '#E84D67', end: '#F68F9F', border: '#CF3750' },
+    { start: '#6B4E9B', end: '#9D88CE', border: '#583D84' },
+    { start: '#D97706', end: '#FCD34D', border: '#B45309' },
+    { start: '#0284C7', end: '#38BDF8', border: '#0369A1' },
+    { start: '#16A34A', end: '#4ADE80', border: '#15803D' }
 ];
 
+// Dark atmosphere set for quick toggle detection
+const DARK_ATMOSPHERES = ['twilight', 'midnight', 'aurora'];
+
 // ==========================================================================
-// Theme Management (Light Mode ⇄ Dark Mode)
+// Theme & Atmosphere Management
 // ==========================================================================
 
 function initTheme() {
-    const savedTheme = localStorage.getItem('hub-theme');
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else {
-        setTheme('light');
-    }
+    // 1. Atmosphere Preset
+    const savedAtm = localStorage.getItem('hub-atmosphere') || 'evening';
+    selectAtmosphere(savedAtm, false);
+
+    // 2. Star Density
+    const savedDensity = localStorage.getItem('hub-star-density') || 'radiant';
+    setStarDensity(savedDensity, false);
+
+    // 3. Shooting Stars
+    const shootingEnabled = localStorage.getItem('hub-shooting-stars') !== 'false';
+    const shootingCheckbox = document.getElementById('toggleShootingStars');
+    if (shootingCheckbox) shootingCheckbox.checked = shootingEnabled;
+    toggleShootingStarsState(shootingEnabled, false);
+
+    // 4. Font Typography
+    const savedFont = localStorage.getItem('hub-font') || 'outfit';
+    setFontFamily(savedFont, false);
 }
 
-function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('hub-theme', theme);
+function selectAtmosphere(atmName, shouldSave = true) {
+    if (!THEME_CHART_COLORS[atmName]) atmName = 'evening';
 
-    const btn = document.getElementById('themeToggleBtn');
+    document.documentElement.setAttribute('data-theme', atmName);
+    if (shouldSave) localStorage.setItem('hub-atmosphere', atmName);
+
+    // Update active button in Modal
+    document.querySelectorAll('.atmosphere-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-atm') === atmName);
+    });
+
+    // Update Header Toggle Icon & Label
+    const isDark = DARK_ATMOSPHERES.includes(atmName);
     const icon = document.getElementById('themeIcon');
     const label = document.getElementById('themeLabel');
+    if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+    if (label) label.textContent = isDark ? 'Light' : 'Dark';
 
-    if (theme === 'dark') {
-        if (icon) icon.textContent = '☀️';
-        if (label) label.textContent = 'Light Mode';
-        if (btn) btn.title = 'Switch to Light Mode';
-    } else {
-        if (icon) icon.textContent = '🌙';
-        if (label) label.textContent = 'Dark Mode';
-        if (btn) btn.title = 'Switch to Dark Mode';
-    }
-
-    // Refresh Chart styling to match active theme
+    // Re-render chart with dynamic gradient
     if (subjectChartInstance && Object.keys(cachedSubjectData).length > 0) {
         renderSubjectChart(cachedSubjectData);
     }
 }
 
 function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
-    setTheme(next);
+    const current = document.documentElement.getAttribute('data-theme') || 'evening';
+    const isDark = DARK_ATMOSPHERES.includes(current);
+    const next = isDark ? 'evening' : 'twilight';
+    selectAtmosphere(next);
+}
+
+function setStarDensity(density, shouldSave = true) {
+    const starsLayer = document.getElementById('starsLayer');
+    if (starsLayer) {
+        starsLayer.className = `stars-layer density-${density}`;
+    }
+
+    if (shouldSave) localStorage.setItem('hub-star-density', density);
+
+    document.querySelectorAll('.chip-btn[data-density]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-density') === density);
+    });
+}
+
+function toggleShootingStarsState(enabled, shouldSave = true) {
+    if (shouldSave) localStorage.setItem('hub-shooting-stars', enabled ? 'true' : 'false');
+
+    if (enabled) {
+        startShootingStars();
+    } else {
+        stopShootingStars();
+    }
+}
+
+function setFontFamily(font, shouldSave = true) {
+    document.documentElement.setAttribute('data-font', font);
+    if (shouldSave) localStorage.setItem('hub-font', font);
+
+    document.querySelectorAll('.chip-btn[data-font]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-font') === font);
+    });
+}
+
+// ==========================================================================
+// Shooting Stars Spawner Engine
+// ==========================================================================
+
+function startShootingStars() {
+    if (shootingStarTimer) clearInterval(shootingStarTimer);
+
+    // Initial shooting star after 3s
+    setTimeout(spawnSingleShootingStar, 3000);
+
+    // Occasional meteor streak every 12-18 seconds
+    shootingStarTimer = setInterval(() => {
+        const density = localStorage.getItem('hub-star-density');
+        if (density !== 'off') {
+            spawnSingleShootingStar();
+        }
+    }, Math.floor(Math.random() * 6000) + 12000);
+}
+
+function stopShootingStars() {
+    if (shootingStarTimer) {
+        clearInterval(shootingStarTimer);
+        shootingStarTimer = null;
+    }
+    const container = document.getElementById('shootingStarsLayer');
+    if (container) container.innerHTML = '';
+}
+
+function spawnSingleShootingStar() {
+    const container = document.getElementById('shootingStarsLayer');
+    if (!container) return;
+
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
+
+    // Randomize starting coordinates (top 45% of viewport)
+    const startX = Math.floor(Math.random() * (window.innerWidth - 200)) + 200;
+    const startY = Math.floor(Math.random() * (window.innerHeight * 0.45));
+
+    star.style.left = `${startX}px`;
+    star.style.top = `${startY}px`;
+
+    container.appendChild(star);
+
+    setTimeout(() => {
+        star.remove();
+    }, 2500);
+}
+
+// ==========================================================================
+// Modal Helpers
+// ==========================================================================
+
+function openThemeModal() {
+    document.getElementById('themeModal').classList.add('active');
+}
+
+function closeThemeModal() {
+    document.getElementById('themeModal').classList.remove('active');
+}
+
+function openClearModal() {
+    document.getElementById('clearModal').classList.add('active');
+}
+
+function closeClearModal() {
+    document.getElementById('clearModal').classList.remove('active');
 }
 
 // ==========================================================================
@@ -109,13 +288,13 @@ function updateDashboard(data) {
     cachedSubjectData = subjects;
 
     // 1. Google Status Badge
-    const badge = document.getElementById('googleConnectionBadge');
     const badgeText = document.getElementById('googleStatusText');
-
-    if (data.gcal_ready) {
-        badgeText.textContent = `🟢 Google Connected (${stats.synced_tasks || 0} Tasks Synced)`;
-    } else {
-        badgeText.textContent = '⚠️ Google credentials.json not found';
+    if (badgeText) {
+        if (data.gcal_ready) {
+            badgeText.textContent = `🟢 Google Connected (${stats.synced_tasks || 0} Tasks Synced)`;
+        } else {
+            badgeText.textContent = '⚠️ Google credentials.json not found';
+        }
     }
 
     // 2. Urgency Metrics
@@ -123,7 +302,7 @@ function updateDashboard(data) {
     document.getElementById('metricThisWeek').textContent = stats.this_week || 0;
     document.getElementById('metricLater').textContent = stats.later || 0;
 
-    // 3. Render Subject-wise Interactive Chart
+    // 3. Render Subject-wise Interactive Gradient Chart
     renderSubjectChart(subjects);
 
     // 4. Live Activity Logs
@@ -142,7 +321,7 @@ function updateDashboard(data) {
 }
 
 // ==========================================================================
-// Chart.js Subject Workload Engine (Restored Artwork Colors)
+// Chart.js Subject Workload Engine with Dynamic Gradient Fills
 // ==========================================================================
 
 function renderSubjectChart(subjects) {
@@ -170,37 +349,50 @@ function renderSubjectChart(subjects) {
     const labels = entries.map(e => e[0]);
     const counts = entries.map(e => e[1]);
 
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-    const colorMap = isDark ? NIGHT_SUBJECT_COLORS : EVENING_SUBJECT_COLORS;
+    const activeTheme = document.documentElement.getAttribute('data-theme') || 'evening';
+    const colorThemeMap = THEME_CHART_COLORS[activeTheme] || THEME_CHART_COLORS['evening'];
+    const isDark = DARK_ATMOSPHERES.includes(activeTheme);
 
-    const bgColors = [];
+    const ctx = canvas.getContext('2d');
+    const chartHeight = canvas.parentElement.clientHeight || 180;
+    const chartWidth = canvas.parentElement.clientWidth || 300;
+
+    // Generate Dynamic Linear Canvas Gradients
+    const bgGradients = [];
     const borderColors = [];
 
     labels.forEach((lbl, idx) => {
-        if (colorMap[lbl]) {
-            bgColors.push(colorMap[lbl].bg);
-            borderColors.push(colorMap[lbl].border);
+        const colorCfg = colorThemeMap[lbl] || FALLBACK_GRADIENTS[idx % FALLBACK_GRADIENTS.length];
+        
+        let grad;
+        if (currentChartMode === 'bar') {
+            // Horizontal gradient for horizontal bars (left to right)
+            grad = ctx.createLinearGradient(0, 0, chartWidth, 0);
+            grad.addColorStop(0, colorCfg.start);
+            grad.addColorStop(1, colorCfg.end);
         } else {
-            const fallback = FALLBACK_COLORS[idx % FALLBACK_COLORS.length];
-            bgColors.push(fallback.bg);
-            borderColors.push(fallback.border);
+            // Vertical gradient for doughnut arcs
+            grad = ctx.createLinearGradient(0, 0, 0, chartHeight);
+            grad.addColorStop(0, colorCfg.start);
+            grad.addColorStop(1, colorCfg.end);
         }
+
+        bgGradients.push(grad);
+        borderColors.push(colorCfg.border);
     });
 
     if (subjectChartInstance) {
         subjectChartInstance.destroy();
     }
 
-    const gridColor = isDark ? '#342A52' : '#E2D9F3';
+    const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)';
     const textColor = isDark ? '#F8F6FD' : '#191228';
     const subTextColor = isDark ? '#C8BFDE' : '#483C60';
     const tooltipBg = isDark ? '#1C162E' : '#191228';
-    const tooltipBorder = isDark ? '#9D88CE' : '#E84D67';
-
-    const ctx = canvas.getContext('2d');
+    const tooltipBorder = borderColors[0] || '#4164B3';
 
     if (currentChartMode === 'bar') {
-        // Horizontal Bar Chart
+        // Horizontal Bar Chart with Dynamic Gradients
         subjectChartInstance = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -208,7 +400,7 @@ function renderSubjectChart(subjects) {
                 datasets: [{
                     label: 'Assignments',
                     data: counts,
-                    backgroundColor: bgColors,
+                    backgroundColor: bgGradients,
                     borderColor: borderColors,
                     borderWidth: 1.5,
                     borderRadius: 6,
@@ -224,7 +416,7 @@ function renderSubjectChart(subjects) {
                     tooltip: {
                         backgroundColor: tooltipBg,
                         titleColor: '#FFFFFF',
-                        bodyColor: isDark ? '#F68F9F' : '#FCA5A5',
+                        bodyColor: '#FBBF24',
                         borderColor: tooltipBorder,
                         borderWidth: 1,
                         padding: 10,
@@ -243,7 +435,7 @@ function renderSubjectChart(subjects) {
                         beginAtZero: true,
                         ticks: {
                             color: subTextColor,
-                            font: { family: 'Inter', size: 11, weight: '500' },
+                            font: { size: 11, weight: '500' },
                             stepSize: 1,
                             precision: 0
                         },
@@ -255,7 +447,7 @@ function renderSubjectChart(subjects) {
                     y: {
                         ticks: {
                             color: textColor,
-                            font: { family: 'Inter', size: 12, weight: '600' }
+                            font: { size: 12, weight: '600' }
                         },
                         grid: { display: false }
                     }
@@ -267,17 +459,17 @@ function renderSubjectChart(subjects) {
             }
         });
     } else {
-        // Modern Doughnut Chart
+        // Modern Doughnut Chart with Dynamic Gradients
         subjectChartInstance = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: labels,
                 datasets: [{
                     data: counts,
-                    backgroundColor: bgColors,
+                    backgroundColor: bgGradients,
                     borderColor: isDark ? '#1C162E' : '#FFFFFF',
                     borderWidth: 2,
-                    hoverOffset: 5,
+                    hoverOffset: 6,
                 }]
             },
             options: {
@@ -289,7 +481,7 @@ function renderSubjectChart(subjects) {
                         position: 'right',
                         labels: {
                             color: textColor,
-                            font: { family: 'Inter', size: 11, weight: '500' },
+                            font: { size: 11, weight: '500' },
                             padding: 8,
                             boxWidth: 10,
                             boxHeight: 10,
@@ -300,7 +492,7 @@ function renderSubjectChart(subjects) {
                     tooltip: {
                         backgroundColor: tooltipBg,
                         titleColor: '#FFFFFF',
-                        bodyColor: isDark ? '#7A9CE6' : '#93C5FD',
+                        bodyColor: '#60A5FA',
                         borderColor: tooltipBorder,
                         borderWidth: 1,
                         padding: 10,
@@ -409,14 +601,6 @@ async function triggerSyncGoogle() {
 }
 
 // Action 3: Clear Google Tasks
-function openClearModal() {
-    document.getElementById('clearModal').classList.add('active');
-}
-
-function closeClearModal() {
-    document.getElementById('clearModal').classList.remove('active');
-}
-
 async function executeClearGoogle() {
     const btn = document.getElementById('btnConfirmClear');
     btn.disabled = true;

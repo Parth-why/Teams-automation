@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="evening" data-font="outfit">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Teams & Google Tasks Sync Hub</title>
-    <!-- Google Fonts: Inter & Outfit -->
+    <!-- Modern Typography: Outfit, Inter, Space Grotesk, Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
     <!-- Chart.js CDN for interactive graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <div class="stars-layer" id="starsLayer"></div>
+    <!-- Background Starry Sky Layer & Shooting Stars -->
+    <div class="stars-layer density-radiant" id="starsLayer">
+        <div class="shooting-stars-layer" id="shootingStarsLayer"></div>
+    </div>
+
     <div class="hub-wrapper">
         
         <!-- Header -->
@@ -26,10 +30,18 @@
                 </div>
             </div>
             <div class="header-right">
+                <!-- Atmosphere Customizer Button -->
+                <button class="theme-customize-btn" id="themeCustomizeBtn" onclick="openThemeModal()" title="Customize Sky Atmosphere & Visuals">
+                    <span class="theme-icon">🎨</span>
+                    <span class="theme-label">Atmosphere</span>
+                </button>
+
+                <!-- Quick Light/Dark Toggle -->
                 <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
                     <span class="theme-icon" id="themeIcon">🌙</span>
                     <span class="theme-label" id="themeLabel">Dark</span>
                 </button>
+
                 <div class="status-indicator-badge" id="googleConnectionBadge">
                     <span class="status-dot"></span>
                     <span id="googleStatusText">Checking Google Connection...</span>
@@ -62,36 +74,36 @@
                     <button class="card-action-btn success" id="btnSyncOnly">Sync Tasks to Google</button>
                 </div>
 
-                <!-- Action 3: Clear Google Tasks (Preserves Local DB) -->
+                <!-- Action 3: Clear Google Tasks -->
                 <div class="action-card danger" onclick="openClearModal()">
                     <div class="card-icon-wrapper red">🧹</div>
                     <div class="card-content">
                         <h3>Clear Google Tasks</h3>
-                        <p>Decongest your Google Tasks checklist by removing all cloud tasks while keeping your local assignments database safe.</p>
+                        <p>Clean out completed or old tasks from Google Tasks while keeping your local assignments database safe and intact.</p>
                     </div>
-                    <button class="card-action-btn danger" id="btnClearGoogle">Clear Cloud Tasks</button>
+                    <button class="card-action-btn danger">Clear Google Tasks</button>
                 </div>
 
-                <!-- Action 4: Export .ICS -->
+                <!-- Action 4: Download .ICS Feed -->
                 <div class="action-card neutral" onclick="downloadIcs()">
                     <div class="card-icon-wrapper purple">📥</div>
                     <div class="card-content">
                         <h3>Download Offline .ICS</h3>
-                        <p>Export a standard iCalendar (.ics) file with pre-configured 1-day deadline alarms for Apple Calendar, Outlook, or Thunderbird.</p>
+                        <p>Export all upcoming assignment deadlines as a standard universal .ICS calendar file for Apple Calendar or Outlook.</p>
                     </div>
-                    <button class="card-action-btn neutral" id="btnExportIcs">Download .ICS</button>
+                    <button class="card-action-btn neutral">Download .ICS Feed</button>
                 </div>
 
             </div>
         </section>
 
-        <!-- Analytics & Workload Overview -->
+        <!-- Analytics & Workload Visualizer Grid -->
         <section class="analytics-grid">
             
-            <!-- Widget 1: Urgency Breakdown -->
+            <!-- Card A: Deadline Urgency Radar -->
             <div class="analytics-card">
                 <div class="card-header-row">
-                    <span class="card-header-icon">⏳</span>
+                    <span class="card-header-icon">🎯</span>
                     <h3>Deadline Urgency Radar</h3>
                 </div>
                 <div class="urgency-metrics">
@@ -105,37 +117,38 @@
                     </div>
                     <div class="metric-box later">
                         <span class="metric-num" id="metricLater">0</span>
-                        <span class="metric-lbl">Later / Next Week</span>
+                        <span class="metric-lbl">Due Later</span>
                     </div>
                 </div>
                 <div class="reminder-rule-box">
-                    <span class="rule-icon">🔔</span>
-                    <span class="rule-text"><strong>Checklist Rule:</strong> Checkable to-do items appear inside the <strong>'Teams Assignments'</strong> list on Google Tasks with 9:00 AM due date notifications.</span>
+                    <span class="rule-icon">⏰</span>
+                    <span><strong>Active Checklist Rule:</strong> All assignments are scheduled at <strong>9:00 AM on due dates</strong> inside your Google Tasks list.</span>
                 </div>
             </div>
 
-            <!-- Widget 2: Interactive Subject Workload Graph (Option C Dual View) -->
+            <!-- Card B: Dual-View Subject Workload Visualizer (Bars / Donut) -->
             <div class="analytics-card">
                 <div class="card-header-row space-between">
                     <div class="header-title-group">
                         <span class="card-header-icon">📊</span>
-                        <h3>Workload by Subject</h3>
+                        <h3>Subject Workload</h3>
                     </div>
-                    <!-- Dual-View Toggle Switcher -->
                     <div class="chart-toggle-group">
-                        <button class="chart-toggle-btn active" id="btnChartBar" onclick="switchChartMode('bar')" title="Horizontal Bars">📊 Bars</button>
-                        <button class="chart-toggle-btn" id="btnChartDonut" onclick="switchChartMode('doughnut')" title="Donut Distribution">🍩 Donut</button>
+                        <button class="chart-toggle-btn active" id="btnChartBar" onclick="switchChartMode('bar')">📊 Bars</button>
+                        <button class="chart-toggle-btn" id="btnChartDonut" onclick="switchChartMode('doughnut')">🍩 Donut</button>
                     </div>
                 </div>
-                <div class="chart-container-wrapper" id="chartWrapper">
+                <div class="chart-container-wrapper">
                     <canvas id="subjectWorkloadChart"></canvas>
-                    <div class="loading-mini" id="chartEmptyMessage" style="display: none;">No active scan yet. Click "1. Scan Teams Assignments" above to scan deadlines.</div>
+                    <div id="chartEmptyMessage" class="loading-mini" style="display: none;">
+                        No assignments scanned yet. Click "Scan Teams Now" to visualize workload distribution.
+                    </div>
                 </div>
             </div>
 
         </section>
 
-        <!-- Live Activity Console -->
+        <!-- Live Activity & Console Logs -->
         <section class="console-section">
             <div class="console-header">
                 <div class="console-title">
@@ -160,6 +173,89 @@
             </div>
         </footer>
 
+    </div>
+
+    <!-- Sky Atmosphere & Visual Customizer Modal -->
+    <div class="modal-backdrop" id="themeModal">
+        <div class="modal-box theme-modal-box">
+            <div class="modal-top">
+                <span class="modal-warning-icon">🎨</span>
+                <h2>Sky Atmosphere & Visuals</h2>
+            </div>
+            
+            <!-- Atmosphere Presets -->
+            <div class="theme-section">
+                <label class="theme-section-lbl">Choose Atmosphere Palette</label>
+                <div class="atmosphere-grid">
+                    <button class="atmosphere-btn active" data-atm="evening" onclick="selectAtmosphere('evening')">
+                        <span class="atm-preview atm-evening"></span>
+                        <span class="atm-name">🌆 Evening Sunset</span>
+                    </button>
+                    <button class="atmosphere-btn" data-atm="dawn" onclick="selectAtmosphere('dawn')">
+                        <span class="atm-preview atm-dawn"></span>
+                        <span class="atm-name">🌅 Dawn Sunrise</span>
+                    </button>
+                    <button class="atmosphere-btn" data-atm="day" onclick="selectAtmosphere('day')">
+                        <span class="atm-preview atm-day"></span>
+                        <span class="atm-name">☀️ Daylight Azure</span>
+                    </button>
+                    <button class="atmosphere-btn" data-atm="twilight" onclick="selectAtmosphere('twilight')">
+                        <span class="atm-preview atm-twilight"></span>
+                        <span class="atm-name">🌕 Moonlit Twilight</span>
+                    </button>
+                    <button class="atmosphere-btn" data-atm="midnight" onclick="selectAtmosphere('midnight')">
+                        <span class="atm-preview atm-midnight"></span>
+                        <span class="atm-name">🌌 Midnight Space</span>
+                    </button>
+                    <button class="atmosphere-btn" data-atm="aurora" onclick="selectAtmosphere('aurora')">
+                        <span class="atm-preview atm-aurora"></span>
+                        <span class="atm-name">🌲 Aurora Borealis</span>
+                    </button>
+                    <button class="atmosphere-btn" data-atm="sakura" onclick="selectAtmosphere('sakura')">
+                        <span class="atm-preview atm-sakura"></span>
+                        <span class="atm-name">🌸 Sakura Dusk</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Star Density Controls -->
+            <div class="theme-section">
+                <label class="theme-section-lbl">Background Stars Intensity</label>
+                <div class="chip-toggle-group">
+                    <button class="chip-btn active" data-density="radiant" onclick="setStarDensity('radiant')">✨ Radiant</button>
+                    <button class="chip-btn" data-density="subtle" onclick="setStarDensity('subtle')">⭐ Subtle</button>
+                    <button class="chip-btn" data-density="off" onclick="setStarDensity('off')">🚫 Off</button>
+                </div>
+            </div>
+
+            <!-- Shooting Stars & Animation Toggle -->
+            <div class="theme-section">
+                <div class="toggle-row">
+                    <div>
+                        <span class="toggle-title">💫 Shooting Stars & Meteors</span>
+                        <p class="toggle-subtitle">Occasional shooting stars streak across the background sky</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="toggleShootingStars" checked onchange="toggleShootingStarsState(this.checked)">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Typography Font Pairing -->
+            <div class="theme-section">
+                <label class="theme-section-lbl">Typography Font Pairing</label>
+                <div class="chip-toggle-group">
+                    <button class="chip-btn active" data-font="outfit" onclick="setFontFamily('outfit')">Outfit + Inter</button>
+                    <button class="chip-btn" data-font="space" onclick="setFontFamily('space')">Space Grotesk</button>
+                    <button class="chip-btn" data-font="jakarta" onclick="setFontFamily('jakarta')">Plus Jakarta</button>
+                </div>
+            </div>
+
+            <div class="modal-btn-row">
+                <button class="modal-btn-confirm" onclick="closeThemeModal()">Done & Save</button>
+            </div>
+        </div>
     </div>
 
     <!-- Confirmation Modal for Clear Cloud Tasks -->
