@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="evening" data-font="outfit">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Teams & Google Tasks Sync Hub</title>
-    <!-- Modern Typography: Outfit, Inter, Space Grotesk, Plus Jakarta Sans -->
+    <!-- Google Fonts: Inter & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
     <!-- Chart.js CDN for interactive graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <!-- Background Starry Sky Layer & Shooting Stars -->
-    <div class="stars-layer density-radiant" id="starsLayer">
+    <div class="stars-layer" id="starsLayer">
         <div class="shooting-stars-layer" id="shootingStarsLayer"></div>
     </div>
 
@@ -30,18 +30,11 @@
                 </div>
             </div>
             <div class="header-right">
-                <!-- Atmosphere Customizer Button -->
-                <button class="theme-customize-btn" id="themeCustomizeBtn" onclick="openThemeModal()" title="Customize Sky Atmosphere & Visuals">
-                    <span class="theme-icon">🎨</span>
-                    <span class="theme-label">Atmosphere</span>
-                </button>
-
-                <!-- Quick Light/Dark Toggle -->
+                <!-- Theme Toggle Button -->
                 <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
                     <span class="theme-icon" id="themeIcon">🌙</span>
                     <span class="theme-label" id="themeLabel">Dark</span>
                 </button>
-
                 <div class="status-indicator-badge" id="googleConnectionBadge">
                     <span class="status-dot"></span>
                     <span id="googleStatusText">Checking Google Connection...</span>
@@ -173,89 +166,6 @@
             </div>
         </footer>
 
-    </div>
-
-    <!-- Sky Atmosphere & Visual Customizer Modal -->
-    <div class="modal-backdrop" id="themeModal">
-        <div class="modal-box theme-modal-box">
-            <div class="modal-top">
-                <span class="modal-warning-icon">🎨</span>
-                <h2>Sky Atmosphere & Visuals</h2>
-            </div>
-            
-            <!-- Atmosphere Presets -->
-            <div class="theme-section">
-                <label class="theme-section-lbl">Choose Atmosphere Palette</label>
-                <div class="atmosphere-grid">
-                    <button class="atmosphere-btn active" data-atm="evening" onclick="selectAtmosphere('evening')">
-                        <span class="atm-preview atm-evening"></span>
-                        <span class="atm-name">🌆 Evening Sunset</span>
-                    </button>
-                    <button class="atmosphere-btn" data-atm="dawn" onclick="selectAtmosphere('dawn')">
-                        <span class="atm-preview atm-dawn"></span>
-                        <span class="atm-name">🌅 Dawn Sunrise</span>
-                    </button>
-                    <button class="atmosphere-btn" data-atm="day" onclick="selectAtmosphere('day')">
-                        <span class="atm-preview atm-day"></span>
-                        <span class="atm-name">☀️ Daylight Azure</span>
-                    </button>
-                    <button class="atmosphere-btn" data-atm="twilight" onclick="selectAtmosphere('twilight')">
-                        <span class="atm-preview atm-twilight"></span>
-                        <span class="atm-name">🌕 Moonlit Twilight</span>
-                    </button>
-                    <button class="atmosphere-btn" data-atm="midnight" onclick="selectAtmosphere('midnight')">
-                        <span class="atm-preview atm-midnight"></span>
-                        <span class="atm-name">🌌 Midnight Space</span>
-                    </button>
-                    <button class="atmosphere-btn" data-atm="aurora" onclick="selectAtmosphere('aurora')">
-                        <span class="atm-preview atm-aurora"></span>
-                        <span class="atm-name">🌲 Aurora Borealis</span>
-                    </button>
-                    <button class="atmosphere-btn" data-atm="sakura" onclick="selectAtmosphere('sakura')">
-                        <span class="atm-preview atm-sakura"></span>
-                        <span class="atm-name">🌸 Sakura Dusk</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Star Density Controls -->
-            <div class="theme-section">
-                <label class="theme-section-lbl">Background Stars Intensity</label>
-                <div class="chip-toggle-group">
-                    <button class="chip-btn active" data-density="radiant" onclick="setStarDensity('radiant')">✨ Radiant</button>
-                    <button class="chip-btn" data-density="subtle" onclick="setStarDensity('subtle')">⭐ Subtle</button>
-                    <button class="chip-btn" data-density="off" onclick="setStarDensity('off')">🚫 Off</button>
-                </div>
-            </div>
-
-            <!-- Shooting Stars & Animation Toggle -->
-            <div class="theme-section">
-                <div class="toggle-row">
-                    <div>
-                        <span class="toggle-title">💫 Shooting Stars & Meteors</span>
-                        <p class="toggle-subtitle">Occasional shooting stars streak across the background sky</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="toggleShootingStars" checked onchange="toggleShootingStarsState(this.checked)">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Typography Font Pairing -->
-            <div class="theme-section">
-                <label class="theme-section-lbl">Typography Font Pairing</label>
-                <div class="chip-toggle-group">
-                    <button class="chip-btn active" data-font="outfit" onclick="setFontFamily('outfit')">Outfit + Inter</button>
-                    <button class="chip-btn" data-font="space" onclick="setFontFamily('space')">Space Grotesk</button>
-                    <button class="chip-btn" data-font="jakarta" onclick="setFontFamily('jakarta')">Plus Jakarta</button>
-                </div>
-            </div>
-
-            <div class="modal-btn-row">
-                <button class="modal-btn-confirm" onclick="closeThemeModal()">Done & Save</button>
-            </div>
-        </div>
     </div>
 
     <!-- Confirmation Modal for Clear Cloud Tasks -->

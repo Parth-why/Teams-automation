@@ -1,6 +1,7 @@
 /**
- * Smart Teams & Google Tasks Sync Hub - Visual Engine & Frontend Logic
- * Multi-Atmosphere Palettes, Dynamic Chart.js Gradients, Shooting Stars & Controls
+ * Smart Teams & Google Tasks Sync Hub - Frontend Logic
+ * Evening Sky (Light Mode) & Moonlit Twilight (Dark Mode)
+ * Dynamic Gradient Chart.js Fills + Shooting Stars + Solid Surfaces
  */
 
 let subjectChartInstance = null;
@@ -8,10 +9,10 @@ let currentChartMode = 'bar'; // 'bar' or 'doughnut'
 let cachedSubjectData = {};
 let shootingStarTimer = null;
 
-// Atmosphere Palette Theme Mappings for Chart Gradients
+// Palette with 2-Tone Gradient Stops for Dynamic Chart.js Rendering
 const THEME_CHART_COLORS = {
-    // 🌆 Evening Sunset Sky
-    'evening': {
+    // 🌆 Evening Sunset Sky (Light Theme)
+    'light': {
         'Robotics': { start: '#4164B3', end: '#6A8DD6', border: '#315099' },
         'DSA': { start: '#E84D67', end: '#F68F9F', border: '#CF3750' },
         'DSA Lab': { start: '#F472B6', end: '#FBBF24', border: '#E8559E' },
@@ -22,32 +23,8 @@ const THEME_CHART_COLORS = {
         'EDC': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
         'Tech Writing': { start: '#8B5CF6', end: '#C084FC', border: '#7C3AED' }
     },
-    // 🌅 Dawn Sunrise
-    'dawn': {
-        'Robotics': { start: '#C2410C', end: '#F97316', border: '#9A3412' },
-        'DSA': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
-        'DSA Lab': { start: '#F43F5E', end: '#FDA4AF', border: '#E11D48' },
-        'EM-III': { start: '#9333EA', end: '#C084FC', border: '#7E22CE' },
-        'Python Prog': { start: '#0284C7', end: '#38BDF8', border: '#0369A1' },
-        'Python Lab': { start: '#16A34A', end: '#4ADE80', border: '#15803D' },
-        'ECA': { start: '#D97706', end: '#FCD34D', border: '#B45309' },
-        'EDC': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
-        'Tech Writing': { start: '#8B5CF6', end: '#C084FC', border: '#7C3AED' }
-    },
-    // ☀️ Daylight Azure
-    'day': {
-        'Robotics': { start: '#2563EB', end: '#60A5FA', border: '#1D4ED8' },
-        'DSA': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
-        'DSA Lab': { start: '#DB2777', end: '#F472B6', border: '#BE185D' },
-        'EM-III': { start: '#6366F1', end: '#A5B4FC', border: '#4F46E5' },
-        'Python Prog': { start: '#0284C7', end: '#38BDF8', border: '#0369A1' },
-        'Python Lab': { start: '#16A34A', end: '#4ADE80', border: '#15803D' },
-        'ECA': { start: '#D97706', end: '#FBBF24', border: '#B45309' },
-        'EDC': { start: '#EF4444', end: '#F87171', border: '#DC2626' },
-        'Tech Writing': { start: '#8B5CF6', end: '#C084FC', border: '#7C3AED' }
-    },
-    // 🌕 Moonlit Twilight Plum (Artwork Dark Theme)
-    'twilight': {
+    // 🌕 Moonlit Twilight Plum (Dark Theme - Restored from Artwork)
+    'dark': {
         'Robotics': { start: '#7A9CE6', end: '#A4B8E9', border: '#5B82EA' },
         'DSA': { start: '#F68F9F', end: '#FDA4AF', border: '#EE7487' },
         'DSA Lab': { start: '#FB7185', end: '#FECDD3', border: '#F43F5E' },
@@ -57,42 +34,6 @@ const THEME_CHART_COLORS = {
         'ECA': { start: '#FCD34D', end: '#FEF08A', border: '#F59E0B' },
         'EDC': { start: '#FB7185', end: '#FDA4AF', border: '#F43F5E' },
         'Tech Writing': { start: '#B5A4DD', end: '#E9D5FF', border: '#9D88CE' }
-    },
-    // 🌌 Deep Midnight Space
-    'midnight': {
-        'Robotics': { start: '#38BDF8', end: '#7DD3FC', border: '#0284C7' },
-        'DSA': { start: '#F43F5E', end: '#FDA4AF', border: '#E11D48' },
-        'DSA Lab': { start: '#EC4899', end: '#F472B6', border: '#DB2777' },
-        'EM-III': { start: '#818CF8', end: '#C7D2FE', border: '#6366F1' },
-        'Python Prog': { start: '#06B6D4', end: '#67E8F9', border: '#0891B2' },
-        'Python Lab': { start: '#34D399', end: '#A7F3D0', border: '#10B981' },
-        'ECA': { start: '#FBBF24', end: '#FDE68A', border: '#D97706' },
-        'EDC': { start: '#F43F5E', end: '#FDA4AF', border: '#E11D48' },
-        'Tech Writing': { start: '#A855F7', end: '#E9D5FF', border: '#9333EA' }
-    },
-    // 🌲 Aurora Borealis
-    'aurora': {
-        'Robotics': { start: '#2DD4BF', end: '#99F6E4', border: '#0D9488' },
-        'DSA': { start: '#F472B6', end: '#FBCFE8', border: '#DB2777' },
-        'DSA Lab': { start: '#FB7185', end: '#FECDD3', border: '#F43F5E' },
-        'EM-III': { start: '#A78BFA', end: '#DDD6FE', border: '#8B5CF6' },
-        'Python Prog': { start: '#38BDF8', end: '#BAE6FD', border: '#0284C7' },
-        'Python Lab': { start: '#34D399', end: '#A7F3D0', border: '#10B981' },
-        'ECA': { start: '#FCD34D', end: '#FEF08A', border: '#F59E0B' },
-        'EDC': { start: '#FB7185', end: '#FDA4AF', border: '#F43F5E' },
-        'Tech Writing': { start: '#C084FC', end: '#F3E8FF', border: '#A855F7' }
-    },
-    // 🌸 Sakura Dusk
-    'sakura': {
-        'Robotics': { start: '#DB2777', end: '#F472B6', border: '#BE185D' },
-        'DSA': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
-        'DSA Lab': { start: '#F43F5E', end: '#FDA4AF', border: '#E11D48' },
-        'EM-III': { start: '#9333EA', end: '#C084FC', border: '#7E22CE' },
-        'Python Prog': { start: '#0284C7', end: '#38BDF8', border: '#0369A1' },
-        'Python Lab': { start: '#16A34A', end: '#4ADE80', border: '#15803D' },
-        'ECA': { start: '#D97706', end: '#FCD34D', border: '#B45309' },
-        'EDC': { start: '#E11D48', end: '#FB7185', border: '#BE123C' },
-        'Tech Writing': { start: '#8B5CF6', end: '#C084FC', border: '#7C3AED' }
     }
 };
 
@@ -105,94 +46,44 @@ const FALLBACK_GRADIENTS = [
     { start: '#16A34A', end: '#4ADE80', border: '#15803D' }
 ];
 
-// Dark atmosphere set for quick toggle detection
-const DARK_ATMOSPHERES = ['twilight', 'midnight', 'aurora'];
-
 // ==========================================================================
-// Theme & Atmosphere Management
+// Theme Management (Light Mode ⇄ Dark Mode)
 // ==========================================================================
 
 function initTheme() {
-    // 1. Atmosphere Preset
-    const savedAtm = localStorage.getItem('hub-atmosphere') || 'evening';
-    selectAtmosphere(savedAtm, false);
-
-    // 2. Star Density
-    const savedDensity = localStorage.getItem('hub-star-density') || 'radiant';
-    setStarDensity(savedDensity, false);
-
-    // 3. Shooting Stars
-    const shootingEnabled = localStorage.getItem('hub-shooting-stars') !== 'false';
-    const shootingCheckbox = document.getElementById('toggleShootingStars');
-    if (shootingCheckbox) shootingCheckbox.checked = shootingEnabled;
-    toggleShootingStarsState(shootingEnabled, false);
-
-    // 4. Font Typography
-    const savedFont = localStorage.getItem('hub-font') || 'outfit';
-    setFontFamily(savedFont, false);
+    const savedTheme = localStorage.getItem('hub-theme') || 'light';
+    setTheme(savedTheme);
+    startShootingStars();
 }
 
-function selectAtmosphere(atmName, shouldSave = true) {
-    if (!THEME_CHART_COLORS[atmName]) atmName = 'evening';
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('hub-theme', theme);
 
-    document.documentElement.setAttribute('data-theme', atmName);
-    if (shouldSave) localStorage.setItem('hub-atmosphere', atmName);
-
-    // Update active button in Modal
-    document.querySelectorAll('.atmosphere-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-atm') === atmName);
-    });
-
-    // Update Header Toggle Icon & Label
-    const isDark = DARK_ATMOSPHERES.includes(atmName);
+    const btn = document.getElementById('themeToggleBtn');
     const icon = document.getElementById('themeIcon');
     const label = document.getElementById('themeLabel');
-    if (icon) icon.textContent = isDark ? '☀️' : '🌙';
-    if (label) label.textContent = isDark ? 'Light' : 'Dark';
 
-    // Re-render chart with dynamic gradient
+    if (theme === 'dark') {
+        if (icon) icon.textContent = '☀️';
+        if (label) label.textContent = 'Light';
+        if (btn) btn.title = 'Switch to Light Mode';
+    } else {
+        if (icon) icon.textContent = '🌙';
+        if (label) label.textContent = 'Dark';
+        if (btn) btn.title = 'Switch to Dark Mode';
+    }
+
+    // Refresh Chart styling to match active theme
     if (subjectChartInstance && Object.keys(cachedSubjectData).length > 0) {
         renderSubjectChart(cachedSubjectData);
     }
 }
 
 function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'evening';
-    const isDark = DARK_ATMOSPHERES.includes(current);
-    const next = isDark ? 'evening' : 'twilight';
-    selectAtmosphere(next);
-}
-
-function setStarDensity(density, shouldSave = true) {
-    const starsLayer = document.getElementById('starsLayer');
-    if (starsLayer) {
-        starsLayer.className = `stars-layer density-${density}`;
-    }
-
-    if (shouldSave) localStorage.setItem('hub-star-density', density);
-
-    document.querySelectorAll('.chip-btn[data-density]').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-density') === density);
-    });
-}
-
-function toggleShootingStarsState(enabled, shouldSave = true) {
-    if (shouldSave) localStorage.setItem('hub-shooting-stars', enabled ? 'true' : 'false');
-
-    if (enabled) {
-        startShootingStars();
-    } else {
-        stopShootingStars();
-    }
-}
-
-function setFontFamily(font, shouldSave = true) {
-    document.documentElement.setAttribute('data-font', font);
-    if (shouldSave) localStorage.setItem('hub-font', font);
-
-    document.querySelectorAll('.chip-btn[data-font]').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-font') === font);
-    });
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    setTheme(next);
 }
 
 // ==========================================================================
@@ -205,22 +96,10 @@ function startShootingStars() {
     // Initial shooting star after 3s
     setTimeout(spawnSingleShootingStar, 3000);
 
-    // Occasional meteor streak every 12-18 seconds
+    // Occasional meteor streak every 14-20 seconds
     shootingStarTimer = setInterval(() => {
-        const density = localStorage.getItem('hub-star-density');
-        if (density !== 'off') {
-            spawnSingleShootingStar();
-        }
-    }, Math.floor(Math.random() * 6000) + 12000);
-}
-
-function stopShootingStars() {
-    if (shootingStarTimer) {
-        clearInterval(shootingStarTimer);
-        shootingStarTimer = null;
-    }
-    const container = document.getElementById('shootingStarsLayer');
-    if (container) container.innerHTML = '';
+        spawnSingleShootingStar();
+    }, Math.floor(Math.random() * 6000) + 14000);
 }
 
 function spawnSingleShootingStar() {
@@ -230,7 +109,7 @@ function spawnSingleShootingStar() {
     const star = document.createElement('div');
     star.className = 'shooting-star';
 
-    // Randomize starting coordinates (top 45% of viewport)
+    // Randomize starting coordinates in top 45% of viewport
     const startX = Math.floor(Math.random() * (window.innerWidth - 200)) + 200;
     const startY = Math.floor(Math.random() * (window.innerHeight * 0.45));
 
@@ -247,14 +126,6 @@ function spawnSingleShootingStar() {
 // ==========================================================================
 // Modal Helpers
 // ==========================================================================
-
-function openThemeModal() {
-    document.getElementById('themeModal').classList.add('active');
-}
-
-function closeThemeModal() {
-    document.getElementById('themeModal').classList.remove('active');
-}
 
 function openClearModal() {
     document.getElementById('clearModal').classList.add('active');
@@ -349,15 +220,15 @@ function renderSubjectChart(subjects) {
     const labels = entries.map(e => e[0]);
     const counts = entries.map(e => e[1]);
 
-    const activeTheme = document.documentElement.getAttribute('data-theme') || 'evening';
-    const colorThemeMap = THEME_CHART_COLORS[activeTheme] || THEME_CHART_COLORS['evening'];
-    const isDark = DARK_ATMOSPHERES.includes(activeTheme);
+    const activeTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const colorThemeMap = THEME_CHART_COLORS[activeTheme] || THEME_CHART_COLORS['light'];
+    const isDark = activeTheme === 'dark';
 
     const ctx = canvas.getContext('2d');
     const chartHeight = canvas.parentElement.clientHeight || 180;
     const chartWidth = canvas.parentElement.clientWidth || 300;
 
-    // Generate Dynamic Linear Canvas Gradients
+    // Generate Dynamic 2-Tone Linear Gradients
     const bgGradients = [];
     const borderColors = [];
 
@@ -385,11 +256,11 @@ function renderSubjectChart(subjects) {
         subjectChartInstance.destroy();
     }
 
-    const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)';
+    const gridColor = isDark ? '#342A52' : '#E2D9F3';
     const textColor = isDark ? '#F8F6FD' : '#191228';
     const subTextColor = isDark ? '#C8BFDE' : '#483C60';
     const tooltipBg = isDark ? '#1C162E' : '#191228';
-    const tooltipBorder = borderColors[0] || '#4164B3';
+    const tooltipBorder = isDark ? '#9D88CE' : '#E84D67';
 
     if (currentChartMode === 'bar') {
         // Horizontal Bar Chart with Dynamic Gradients
@@ -416,7 +287,7 @@ function renderSubjectChart(subjects) {
                     tooltip: {
                         backgroundColor: tooltipBg,
                         titleColor: '#FFFFFF',
-                        bodyColor: '#FBBF24',
+                        bodyColor: isDark ? '#F68F9F' : '#FCA5A5',
                         borderColor: tooltipBorder,
                         borderWidth: 1,
                         padding: 10,
@@ -435,7 +306,7 @@ function renderSubjectChart(subjects) {
                         beginAtZero: true,
                         ticks: {
                             color: subTextColor,
-                            font: { size: 11, weight: '500' },
+                            font: { family: 'Inter', size: 11, weight: '500' },
                             stepSize: 1,
                             precision: 0
                         },
@@ -447,7 +318,7 @@ function renderSubjectChart(subjects) {
                     y: {
                         ticks: {
                             color: textColor,
-                            font: { size: 12, weight: '600' }
+                            font: { family: 'Inter', size: 12, weight: '600' }
                         },
                         grid: { display: false }
                     }
@@ -481,7 +352,7 @@ function renderSubjectChart(subjects) {
                         position: 'right',
                         labels: {
                             color: textColor,
-                            font: { size: 11, weight: '500' },
+                            font: { family: 'Inter', size: 11, weight: '500' },
                             padding: 8,
                             boxWidth: 10,
                             boxHeight: 10,
@@ -492,7 +363,7 @@ function renderSubjectChart(subjects) {
                     tooltip: {
                         backgroundColor: tooltipBg,
                         titleColor: '#FFFFFF',
-                        bodyColor: '#60A5FA',
+                        bodyColor: isDark ? '#7A9CE6' : '#93C5FD',
                         borderColor: tooltipBorder,
                         borderWidth: 1,
                         padding: 10,
