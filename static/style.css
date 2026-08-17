@@ -232,29 +232,36 @@ body {
     animation: celestialFloat 6s ease-in-out infinite alternate;
 }
 
-/* Dark Theme: Soft Moonlit Twilight Moon (Reduced Peak Glow) */
-[data-theme="dark"] .celestial-orb {
-    background: linear-gradient(145deg, #E6EDFA 0%, #CCD9F5 35%, #927DC4 75%, #5E4A8A 100%);
-    box-shadow: 
-        0 0 14px rgba(122, 156, 230, 0.2),
-        0 0 30px rgba(157, 136, 206, 0.12),
-        inset -5px -5px 14px rgba(16, 9, 32, 0.6);
-}
-
-/* Light Theme: Warm Sunset Golden Sun (Reduced Peak Glow) */
-:root .celestial-orb, [data-theme="light"] .celestial-orb {
+/* Light Theme: Warm Sunset Golden Sun */
+.celestial-orb,
+[data-theme="light"] .celestial-orb {
     background: linear-gradient(135deg, #FFF5D6 0%, #FBBF24 50%, #F472B6 100%);
     box-shadow: 
         0 0 16px rgba(251, 191, 36, 0.22),
         0 0 32px rgba(244, 114, 182, 0.12);
 }
 
+.orb-crater,
+[data-theme="light"] .orb-crater {
+    display: none;
+}
+
+/* Dark Theme: Soft Moonlit Silver Moon with Lunar Craters */
+[data-theme="dark"] .celestial-orb {
+    background: linear-gradient(145deg, #F0F4FC 0%, #D4E0FB 35%, #9D88CE 75%, #634F8C 100%) !important;
+    box-shadow: 
+        0 0 14px rgba(122, 156, 230, 0.25),
+        0 0 30px rgba(157, 136, 206, 0.15),
+        inset -5px -5px 14px rgba(16, 9, 32, 0.65) !important;
+}
+
 /* Moon Craters */
-.orb-crater {
+[data-theme="dark"] .orb-crater {
+    display: block !important;
     position: absolute;
     border-radius: 50%;
-    background: rgba(70, 50, 105, 0.2);
-    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.25);
+    background: rgba(65, 45, 95, 0.25);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 [data-theme="dark"] .crater-1 {
@@ -269,10 +276,6 @@ body {
     right: 22px;
     width: 18px;
     height: 18px;
-}
-
-:root .orb-crater, [data-theme="light"] .orb-crater {
-    display: none;
 }
 
 @keyframes celestialFloat {
@@ -300,14 +303,15 @@ body {
     z-index: 2;
 }
 
-[data-theme="dark"] .planet-body {
-    background: linear-gradient(135deg, #5B7DC4 0%, #364478 45%, #1F1538 100%);
-    box-shadow: 0 0 6px rgba(91, 130, 234, 0.15), inset -4px -4px 10px rgba(0, 0, 0, 0.7);
-}
-
-:root .planet-body, [data-theme="light"] .planet-body {
+.planet-body,
+[data-theme="light"] .planet-body {
     background: linear-gradient(135deg, #93C5FD 0%, #60A5FA 50%, #3B82F6 100%);
     box-shadow: 0 0 6px rgba(96, 165, 250, 0.15);
+}
+
+[data-theme="dark"] .planet-body {
+    background: linear-gradient(135deg, #5B7DC4 0%, #364478 45%, #1F1538 100%) !important;
+    box-shadow: 0 0 6px rgba(91, 130, 234, 0.15), inset -4px -4px 10px rgba(0, 0, 0, 0.7) !important;
 }
 
 /* Saturn's Planetary Ring Disc (Continuous Equatorial Revolution, Solid Lighting, Zero Glitter) */
@@ -375,14 +379,15 @@ body {
     animation: moonOrbit 5s ease-in-out infinite alternate;
 }
 
-[data-theme="dark"] .distant-moon {
-    background: #E6EEFA;
-    box-shadow: 0 0 4px rgba(230, 238, 250, 0.4);
-}
-
-:root .distant-moon, [data-theme="light"] .distant-moon {
+.distant-moon,
+[data-theme="light"] .distant-moon {
     background: #FEF3C7;
     box-shadow: 0 0 4px rgba(254, 243, 199, 0.4);
+}
+
+[data-theme="dark"] .distant-moon {
+    background: #E6EEFA !important;
+    box-shadow: 0 0 4px rgba(230, 238, 250, 0.4) !important;
 }
 
 @keyframes moonOrbit {
