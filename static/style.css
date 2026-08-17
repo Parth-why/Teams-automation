@@ -802,43 +802,44 @@ body {
 }
 
 /* ==========================================================================
-   Header Section (Solid Opaque Surface)
+   Floating Tablet / Capsule Dynamic Island Header
    ========================================================================== */
 
-.hub-header {
+.hub-header.tablet-header {
     background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 12px;
-    padding: 18px 26px;
+    border: 1.5px solid var(--border-medium);
+    border-radius: 9999px;
+    padding: 10px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16), var(--shadow-sm);
     flex-wrap: wrap;
     gap: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header-left {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
 }
 
 .header-dual-logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: var(--bg-surface-subtle);
-    padding: 6px 12px;
-    border-radius: 12px;
+    padding: 5px 11px;
+    border-radius: 9999px;
     border: 1px solid var(--border-medium);
     box-shadow: var(--shadow-xs);
 }
 
 .logo-badge {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -846,49 +847,61 @@ body {
 }
 
 .logo-badge:hover {
-    transform: scale(1.08);
+    transform: scale(1.12);
 }
 
 .teams-badge {
-    background: rgba(80, 90, 201, 0.12);
-    border: 1px solid rgba(80, 90, 201, 0.25);
+    background: rgba(80, 90, 201, 0.14);
 }
 
 .gcal-badge {
-    background: rgba(66, 133, 244, 0.12);
-    border: 1px solid rgba(66, 133, 244, 0.25);
+    background: rgba(66, 133, 244, 0.14);
 }
 
 .logo-connector {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--text-tertiary);
 }
 
-.header-icon {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, var(--primary), var(--sunset-accent), var(--dusk-purple));
-    color: #FFFFFF;
-    border-radius: 10px;
+.brand-title-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brand-title-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 3px 10px var(--primary-glow);
+    gap: 8px;
 }
 
-.header-left h1 {
-    font-size: 21px;
-    font-weight: 700;
+.brand-title-row h1 {
+    font-size: 20px;
+    font-weight: 800;
     color: var(--text-primary);
-    letter-spacing: -0.3px;
+    letter-spacing: -0.4px;
+    margin: 0;
+    line-height: 1.2;
 }
 
-.header-left .subtitle {
-    font-size: 13px;
+.brand-badge {
+    background: rgba(16, 185, 129, 0.14);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 9999px;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 1px 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.brand-title-group .subtitle {
+    font-size: 11.5px;
     color: var(--text-secondary);
-    margin-top: 2px;
+    margin: 0;
+    font-weight: 500;
 }
 
 .header-right {
@@ -1358,14 +1371,15 @@ body {
 
 .hub-footer {
     background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 8px;
-    padding: 12px 18px;
+    border: 1.5px solid var(--border-medium);
+    border-radius: 9999px;
+    padding: 12px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-size: 12px;
     color: var(--text-secondary);
+    box-shadow: var(--shadow-xs);
     flex-wrap: wrap;
     gap: 8px;
 }
