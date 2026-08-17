@@ -1,7 +1,6 @@
 /**
- * Smart Teams & Google Tasks Sync Hub - Frontend Logic
- * Evening Sky (Light Mode) & Moonlit Twilight (Dark Mode)
- * Dynamic Gradient Chart.js Fills + Shooting Stars + Solid Surfaces
+ * Smart Teams & Google Tasks Sync Hub - Visual Engine & Frontend Logic
+ * Dynamic Sky Animations, Dynamic Linear Gradient Charts & Visual Settings
  */
 
 let subjectChartInstance = null;
@@ -9,7 +8,7 @@ let currentChartMode = 'bar'; // 'bar' or 'doughnut'
 let cachedSubjectData = {};
 let shootingStarTimer = null;
 
-// Palette with 2-Tone Gradient Stops for Dynamic Chart.js Rendering
+// Palette with 2-Tone Gradient Stops for Dynamic Canvas Gradients
 const THEME_CHART_COLORS = {
     // 🌆 Evening Sunset Sky (Light Theme)
     'light': {
@@ -47,18 +46,32 @@ const FALLBACK_GRADIENTS = [
 ];
 
 // ==========================================================================
-// Theme Management (Light Mode ⇄ Dark Mode)
+// Theme Management (Evening Light ⇄ Moonlit Twilight Dark)
 // ==========================================================================
 
 function initTheme() {
+    // 1. Core Theme
     const savedTheme = localStorage.getItem('hub-theme') || 'light';
-    setTheme(savedTheme);
-    startShootingStars();
+    setTheme(savedTheme, false);
+
+    // 2. Star Density
+    const savedDensity = localStorage.getItem('hub-star-density') || 'radiant';
+    setStarDensity(savedDensity, false);
+
+    // 3. Shooting Stars
+    const shootingEnabled = localStorage.getItem('hub-shooting-stars') !== 'false';
+    const shootingCheckbox = document.getElementById('toggleShootingStars');
+    if (shootingCheckbox) shootingCheckbox.checked = shootingEnabled;
+    toggleShootingStarsState(shootingEnabled, false);
+
+    // 4. Typography Font
+    const savedFont = localStorage.getItem('hub-font') || 'outfit';
+    setFontFamily(savedFont, false);
 }
 
-function setTheme(theme) {
+function setTheme(theme, shouldSave = true) {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('hub-theme', theme);
+    if (shouldSave) localStorage.setItem('hub-theme', theme);
 
     const btn = document.getElementById('themeToggleBtn');
     const icon = document.getElementById('themeIcon');
@@ -67,11 +80,11 @@ function setTheme(theme) {
     if (theme === 'dark') {
         if (icon) icon.textContent = '☀️';
         if (label) label.textContent = 'Light';
-        if (btn) btn.title = 'Switch to Light Mode';
+        if (btn) btn.title = 'Switch to Evening Sky (Light Mode)';
     } else {
         if (icon) icon.textContent = '🌙';
         if (label) label.textContent = 'Dark';
-        if (btn) btn.title = 'Switch to Dark Mode';
+        if (btn) btn.title = 'Switch to Moonlit Twilight (Dark Mode)';
     }
 
     // Refresh Chart styling to match active theme
@@ -86,8 +99,40 @@ function toggleTheme() {
     setTheme(next);
 }
 
+function setStarDensity(density, shouldSave = true) {
+    const starsLayer = document.getElementById('starsLayer');
+    if (starsLayer) {
+        starsLayer.className = `stars-layer density-${density}`;
+    }
+
+    if (shouldSave) localStorage.setItem('hub-star-density', density);
+
+    document.querySelectorAll('.chip-btn[data-density]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-density') === density);
+    });
+}
+
+function toggleShootingStarsState(enabled, shouldSave = true) {
+    if (shouldSave) localStorage.setItem('hub-shooting-stars', enabled ? 'true' : 'false');
+
+    if (enabled) {
+        startShootingStars();
+    } else {
+        stopShootingStars();
+    }
+}
+
+function setFontFamily(font, shouldSave = true) {
+    document.documentElement.setAttribute('data-font', font);
+    if (shouldSave) localStorage.setItem('hub-font', font);
+
+    document.querySelectorAll('.chip-btn[data-font]').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-font') === font);
+    });
+}
+
 // ==========================================================================
-// Shooting Stars Spawner Engine
+// Shooting Stars Meteor Spawner
 // ==========================================================================
 
 function startShootingStars() {
@@ -96,10 +141,22 @@ function startShootingStars() {
     // Initial shooting star after 3s
     setTimeout(spawnSingleShootingStar, 3000);
 
-    // Occasional meteor streak every 14-20 seconds
+    // Periodic shooting star every 12-18 seconds
     shootingStarTimer = setInterval(() => {
-        spawnSingleShootingStar();
-    }, Math.floor(Math.random() * 6000) + 14000);
+        const density = localStorage.getItem('hub-star-density');
+        if (density !== 'off') {
+            spawnSingleShootingStar();
+        }
+    }, Math.floor(Math.random() * 6000) + 12000);
+}
+
+function stopShootingStars() {
+    if (shootingStarTimer) {
+        clearInterval(shootingStarTimer);
+        shootingStarTimer = null;
+    }
+    const container = document.getElementById('shootingStarsLayer');
+    if (container) container.innerHTML = '';
 }
 
 function spawnSingleShootingStar() {
@@ -109,7 +166,7 @@ function spawnSingleShootingStar() {
     const star = document.createElement('div');
     star.className = 'shooting-star';
 
-    // Randomize starting coordinates in top 45% of viewport
+    // Randomize coordinates across top 45% of viewport
     const startX = Math.floor(Math.random() * (window.innerWidth - 200)) + 200;
     const startY = Math.floor(Math.random() * (window.innerHeight * 0.45));
 
@@ -126,6 +183,14 @@ function spawnSingleShootingStar() {
 // ==========================================================================
 // Modal Helpers
 // ==========================================================================
+
+function openVisualSettingsModal() {
+    document.getElementById('visualSettingsModal').classList.add('active');
+}
+
+function closeVisualSettingsModal() {
+    document.getElementById('visualSettingsModal').classList.remove('active');
+}
 
 function openClearModal() {
     document.getElementById('clearModal').classList.add('active');
@@ -192,7 +257,7 @@ function updateDashboard(data) {
 }
 
 // ==========================================================================
-// Chart.js Subject Workload Engine with Dynamic Gradient Fills
+// Chart.js Subject Workload Engine with Dynamic 2-Tone Gradient Fills
 // ==========================================================================
 
 function renderSubjectChart(subjects) {
@@ -228,7 +293,7 @@ function renderSubjectChart(subjects) {
     const chartHeight = canvas.parentElement.clientHeight || 180;
     const chartWidth = canvas.parentElement.clientWidth || 300;
 
-    // Generate Dynamic 2-Tone Linear Gradients
+    // Dynamic 2-Tone Linear Gradients
     const bgGradients = [];
     const borderColors = [];
 
@@ -237,7 +302,7 @@ function renderSubjectChart(subjects) {
         
         let grad;
         if (currentChartMode === 'bar') {
-            // Horizontal gradient for horizontal bars (left to right)
+            // Horizontal gradient for horizontal bars
             grad = ctx.createLinearGradient(0, 0, chartWidth, 0);
             grad.addColorStop(0, colorCfg.start);
             grad.addColorStop(1, colorCfg.end);
@@ -263,7 +328,7 @@ function renderSubjectChart(subjects) {
     const tooltipBorder = isDark ? '#9D88CE' : '#E84D67';
 
     if (currentChartMode === 'bar') {
-        // Horizontal Bar Chart with Dynamic Gradients
+        // Horizontal Bar Chart with Dynamic Linear Gradients
         subjectChartInstance = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -306,7 +371,7 @@ function renderSubjectChart(subjects) {
                         beginAtZero: true,
                         ticks: {
                             color: subTextColor,
-                            font: { family: 'Inter', size: 11, weight: '500' },
+                            font: { size: 11, weight: '500' },
                             stepSize: 1,
                             precision: 0
                         },
@@ -318,7 +383,7 @@ function renderSubjectChart(subjects) {
                     y: {
                         ticks: {
                             color: textColor,
-                            font: { family: 'Inter', size: 12, weight: '600' }
+                            font: { size: 12, weight: '600' }
                         },
                         grid: { display: false }
                     }
@@ -352,7 +417,7 @@ function renderSubjectChart(subjects) {
                         position: 'right',
                         labels: {
                             color: textColor,
-                            font: { family: 'Inter', size: 11, weight: '500' },
+                            font: { size: 11, weight: '500' },
                             padding: 8,
                             boxWidth: 10,
                             boxHeight: 10,
