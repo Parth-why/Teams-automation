@@ -219,29 +219,42 @@ body {
     animation: celestialFloat 6s ease-in-out infinite alternate;
 }
 
-/* Dark Theme: Pearlescent Moonlit Plum Moon */
-[data-theme="dark"] .celestial-orb {
-    background: linear-gradient(145deg, #F0F4FC 0%, #D4E0FB 35%, #9D88CE 75%, #6B5599 100%);
-    box-shadow: 
-        0 0 35px rgba(122, 156, 230, 0.45),
-        0 0 75px rgba(157, 136, 206, 0.3),
-        inset -6px -6px 16px rgba(18, 10, 36, 0.55);
+/* 1. Celestial Orb (Soft Subtle Moon in Dark Mode / Sunset Sun in Light Mode) */
+.celestial-orb {
+    position: absolute;
+    top: 32px;
+    right: 6%;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+    animation: celestialFloat 6s ease-in-out infinite alternate;
 }
 
-/* Light Theme: Warm Sunset Golden Sun */
+/* Dark Theme: Soft Moonlit Twilight Moon (Reduced Peak Glow) */
+[data-theme="dark"] .celestial-orb {
+    background: linear-gradient(145deg, #E6EDFA 0%, #CCD9F5 35%, #927DC4 75%, #5E4A8A 100%);
+    box-shadow: 
+        0 0 14px rgba(122, 156, 230, 0.2),
+        0 0 30px rgba(157, 136, 206, 0.12),
+        inset -5px -5px 14px rgba(16, 9, 32, 0.6);
+}
+
+/* Light Theme: Warm Sunset Golden Sun (Reduced Peak Glow) */
 :root .celestial-orb, [data-theme="light"] .celestial-orb {
     background: linear-gradient(135deg, #FFF5D6 0%, #FBBF24 50%, #F472B6 100%);
     box-shadow: 
-        0 0 45px rgba(251, 191, 36, 0.45),
-        0 0 90px rgba(244, 114, 182, 0.3);
+        0 0 16px rgba(251, 191, 36, 0.22),
+        0 0 32px rgba(244, 114, 182, 0.12);
 }
 
 /* Moon Craters */
 .orb-crater {
     position: absolute;
     border-radius: 50%;
-    background: rgba(80, 60, 120, 0.22);
-    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
+    background: rgba(70, 50, 105, 0.2);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 [data-theme="dark"] .crater-1 {
@@ -264,10 +277,10 @@ body {
 
 @keyframes celestialFloat {
     0% { transform: translateY(0) scale(1); }
-    100% { transform: translateY(-8px) scale(1.02); }
+    100% { transform: translateY(-8px) scale(1.01); }
 }
 
-/* 2. Ringed Cosmic Planet (Saturn Style) */
+/* 2. Ringed Cosmic Planet (Soft Ambient Glow) */
 .cosmic-planet {
     position: absolute;
     top: 170px;
@@ -288,13 +301,13 @@ body {
 }
 
 [data-theme="dark"] .planet-body {
-    background: linear-gradient(135deg, #6A8DD6 0%, #4164B3 45%, #251B44 100%);
-    box-shadow: 0 0 16px rgba(91, 130, 234, 0.35), inset -4px -4px 10px rgba(0, 0, 0, 0.6);
+    background: linear-gradient(135deg, #5B7DC4 0%, #364478 45%, #1F1538 100%);
+    box-shadow: 0 0 6px rgba(91, 130, 234, 0.15), inset -4px -4px 10px rgba(0, 0, 0, 0.7);
 }
 
 :root .planet-body, [data-theme="light"] .planet-body {
     background: linear-gradient(135deg, #93C5FD 0%, #60A5FA 50%, #3B82F6 100%);
-    box-shadow: 0 0 14px rgba(96, 165, 250, 0.35);
+    box-shadow: 0 0 6px rgba(96, 165, 250, 0.15);
 }
 
 .planet-ring {
@@ -309,13 +322,13 @@ body {
 }
 
 [data-theme="dark"] .planet-ring {
-    border: 2px solid rgba(164, 184, 233, 0.65);
-    box-shadow: 0 0 10px rgba(122, 156, 230, 0.35);
+    border: 1.5px solid rgba(164, 184, 233, 0.4);
+    box-shadow: 0 0 4px rgba(122, 156, 230, 0.15);
 }
 
 :root .planet-ring, [data-theme="light"] .planet-ring {
-    border: 2px solid rgba(147, 197, 253, 0.6);
-    box-shadow: 0 0 8px rgba(147, 197, 253, 0.3);
+    border: 1.5px solid rgba(147, 197, 253, 0.4);
+    box-shadow: 0 0 4px rgba(147, 197, 253, 0.15);
 }
 
 @keyframes planetFloat {
@@ -338,12 +351,12 @@ body {
 
 [data-theme="dark"] .distant-moon {
     background: #E6EEFA;
-    box-shadow: 0 0 10px rgba(230, 238, 250, 0.85);
+    box-shadow: 0 0 4px rgba(230, 238, 250, 0.4);
 }
 
 :root .distant-moon, [data-theme="light"] .distant-moon {
     background: #FEF3C7;
-    box-shadow: 0 0 8px rgba(254, 243, 199, 0.85);
+    box-shadow: 0 0 4px rgba(254, 243, 199, 0.4);
 }
 
 @keyframes moonOrbit {
@@ -351,7 +364,7 @@ body {
     100% { transform: translateY(-6px) translateX(4px); }
 }
 
-/* 4. Luminous Spiral Galaxy */
+/* 4. Luminous Spiral Galaxy (Soft Cosmic Tone) */
 .spiral-galaxy {
     position: absolute;
     bottom: 80px;
@@ -373,7 +386,7 @@ body {
     height: 24px;
     border-radius: 50%;
     background: radial-gradient(circle, #FFFFFF 0%, #BAE6FD 35%, #818CF8 70%, transparent 100%);
-    box-shadow: 0 0 20px rgba(186, 230, 253, 0.95), 0 0 40px rgba(129, 140, 248, 0.65);
+    box-shadow: 0 0 8px rgba(186, 230, 253, 0.4), 0 0 16px rgba(129, 140, 248, 0.2);
 }
 
 .galaxy-ring {
@@ -387,16 +400,16 @@ body {
 .galaxy-ring.ring-1 {
     width: 95px;
     height: 95px;
-    border: 2px dashed rgba(167, 139, 250, 0.55);
-    box-shadow: 0 0 15px rgba(129, 140, 248, 0.4);
+    border: 1.5px dashed rgba(167, 139, 250, 0.35);
+    box-shadow: 0 0 6px rgba(129, 140, 248, 0.15);
     animation: galaxySpin 28s linear infinite;
 }
 
 .galaxy-ring.ring-2 {
     width: 125px;
     height: 125px;
-    border: 1.5px dotted rgba(244, 114, 182, 0.45);
-    box-shadow: 0 0 20px rgba(244, 114, 182, 0.35);
+    border: 1px dotted rgba(244, 114, 182, 0.3);
+    box-shadow: 0 0 8px rgba(244, 114, 182, 0.15);
     animation: galaxySpinReverse 36s linear infinite;
 }
 
@@ -410,7 +423,7 @@ body {
     to { transform: translate(-50%, -50%) rotate(0deg); }
 }
 
-/* 5. Dazzling Pulsing Supernova */
+/* 5. Dazzling Pulsing Supernova (Soft Gentle Pulse) */
 .supernova {
     position: absolute;
     top: 60px;
@@ -426,12 +439,12 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: #FFFFFF;
-    box-shadow: 0 0 12px #FFFFFF, 0 0 24px #F472B6, 0 0 45px #A855F7;
-    animation: supernovaPulse 3.2s ease-in-out infinite alternate;
+    box-shadow: 0 0 6px #FFFFFF, 0 0 12px rgba(244, 114, 182, 0.35);
+    animation: supernovaPulse 3.5s ease-in-out infinite alternate;
 }
 
 .supernova-rays {
@@ -439,8 +452,8 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 44px;
-    height: 44px;
+    width: 36px;
+    height: 36px;
 }
 
 .supernova-rays::before {
@@ -449,9 +462,9 @@ body {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 2px;
-    height: 44px;
-    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.95), transparent);
+    width: 1.5px;
+    height: 36px;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.8), transparent);
 }
 
 .supernova-rays::after {
@@ -460,9 +473,9 @@ body {
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    width: 44px;
-    height: 2px;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.95), transparent);
+    width: 36px;
+    height: 1.5px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
 }
 
 .supernova-shockwave {
@@ -471,18 +484,18 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    border: 1.5px solid rgba(244, 114, 182, 0.7);
+    border: 1px solid rgba(244, 114, 182, 0.4);
     animation: shockwavePulse 4.5s ease-out infinite;
 }
 
 @keyframes supernovaPulse {
-    0% { transform: translate(-50%, -50%) scale(0.85); filter: drop-shadow(0 0 6px #F472B6); }
-    100% { transform: translate(-50%, -50%) scale(1.35); filter: drop-shadow(0 0 18px #A855F7); }
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+    100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
 }
 
 @keyframes shockwavePulse {
-    0% { width: 6px; height: 6px; opacity: 1; border-color: rgba(255, 255, 255, 0.95); }
-    100% { width: 70px; height: 70px; opacity: 0; border-color: rgba(168, 85, 247, 0); }
+    0% { width: 4px; height: 4px; opacity: 0.8; border-color: rgba(255, 255, 255, 0.8); }
+    100% { width: 60px; height: 60px; opacity: 0; border-color: rgba(168, 85, 247, 0); }
 }
 
 /* 6. Cosmic Nebula Dust */
@@ -492,7 +505,7 @@ body {
     filter: blur(60px);
     pointer-events: none;
     z-index: 0;
-    opacity: 0.22;
+    opacity: 0.16;
 }
 
 .nebula-1 {
@@ -511,52 +524,38 @@ body {
     background: radial-gradient(circle, #E84D67 0%, #6B4E9B 50%, transparent 80%);
 }
 
-/* 7. Floating Space Asteroid (Enlarged & Majestic Slow Drift) */
+/* 7. Floating Space Asteroid (Random Organic Geometry, Zero Glow, Matte Shading) */
 .floating-asteroid {
     position: absolute;
-    width: 48px;
-    height: 45px;
+    width: 52px;
+    height: 48px;
     z-index: 1;
     pointer-events: none;
 }
 
 .asteroid-body {
-    width: 48px;
-    height: 45px;
-    background: linear-gradient(135deg, #958BB0 0%, #5E4E82 45%, #251B44 100%);
-    border-radius: 46% 54% 62% 38% / 52% 44% 56% 48%;
+    width: 52px;
+    height: 48px;
+    background: linear-gradient(145deg, #7A7092 0%, #4D4168 45%, #251B38 100%);
+    /* Irregular, faceted, asymmetrical stone polygon shape */
+    clip-path: polygon(18% 0%, 54% 3%, 82% 14%, 98% 38%, 94% 72%, 72% 96%, 36% 100%, 8% 86%, 0% 54%, 4% 20%);
     box-shadow: 
-        0 0 16px rgba(157, 136, 206, 0.5),
-        inset -6px -6px 10px rgba(10, 5, 25, 0.9),
-        inset 3px 3px 6px rgba(255, 255, 255, 0.5);
+        none !important;
     position: relative;
-    animation: asteroidTumble 28s linear infinite;
+    animation: asteroidTumble 32s linear infinite;
 }
 
 .asteroid-crater {
     position: absolute;
     border-radius: 50%;
-    background: rgba(18, 11, 32, 0.75);
-    box-shadow: inset 1.5px 1.5px 3px rgba(0, 0, 0, 0.85);
+    background: rgba(14, 8, 26, 0.85);
+    box-shadow: inset 1.5px 1.5px 3px rgba(0, 0, 0, 0.95);
 }
 
-.asteroid-crater.c1 { top: 9px; left: 10px; width: 10px; height: 9px; }
-.asteroid-crater.c2 { bottom: 10px; right: 11px; width: 13px; height: 11px; }
-.asteroid-crater.c3 { top: 18px; right: 8px; width: 7px; height: 7px; }
-.asteroid-crater.c4 { bottom: 12px; left: 12px; width: 6px; height: 6px; }
-
-.asteroid-trail {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(157, 136, 206, 0.28) 0%, transparent 70%);
-    filter: blur(5px);
-    pointer-events: none;
-}
+.asteroid-crater.c1 { top: 10px; left: 12px; width: 10px; height: 9px; }
+.asteroid-crater.c2 { bottom: 12px; right: 12px; width: 12px; height: 11px; }
+.asteroid-crater.c3 { top: 20px; right: 9px; width: 7px; height: 7px; }
+.asteroid-crater.c4 { bottom: 14px; left: 14px; width: 7px; height: 6px; }
 
 @keyframes asteroidTumble {
     0% { transform: rotate(0deg); }
