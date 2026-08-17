@@ -789,31 +789,34 @@ body {
     }
 }
 
-/* ==========================================================================
-   Full-Width Top OmniSync Navigation Bar (Occupies Complete Top Area)
-   ========================================================================== */
-
-.hub-top-bar {
+.hub-wrapper {
     width: 100%;
-    background: var(--bg-surface);
-    border-bottom: 1.5px solid var(--border-medium);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.22);
+    max-width: 1140px;
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-height: 100vh;
     position: relative;
-    z-index: 10;
-    padding: 14px 0;
-    margin: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
 }
 
-.top-bar-inner {
-    max-width: 1360px;
-    margin: 0 auto;
-    padding: 0 28px;
+/* ==========================================================================
+   Floating Tablet / Capsule Dynamic Island Header
+   ========================================================================== */
+
+.hub-header.tablet-header {
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-medium);
+    border-radius: 9999px;
+    padding: 10px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16), var(--shadow-sm);
     flex-wrap: wrap;
+    gap: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header-left {
@@ -905,19 +908,6 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-}
-
-.hub-wrapper {
-    width: 100%;
-    max-width: 1360px;
-    margin: 0 auto;
-    padding: 28px 28px 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    min-height: calc(100vh - 68px);
-    position: relative;
-    z-index: 1;
 }
 
 /* Theme Toggle Button */
@@ -1567,17 +1557,9 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 880px) {
+@media (max-width: 768px) {
     .analytics-grid { grid-template-columns: 1fr; }
-    .top-bar-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 14px;
-    }
-    .header-right {
-        width: 100%;
-        justify-content: space-between;
-    }
+    .hub-header { flex-direction: column; align-items: flex-start; }
     .celestial-orb { width: 55px; height: 55px; top: 15px; right: 3%; }
     .cosmic-planet, .spiral-galaxy, .supernova { display: none; }
 }
