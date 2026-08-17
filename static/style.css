@@ -324,7 +324,7 @@ body {
     100% { transform: translateY(-8px) scale(1.01); }
 }
 
-/* 2. Ringed Cosmic Planet (Saturn Sphere Glitters Continuously, Rings Do Not Glitter) */
+/* 2. Ringed Cosmic Planet (Saturn Emits Soft Atmospheric Planetary Glow) */
 .cosmic-planet {
     position: fixed;
     top: 165px;
@@ -342,63 +342,30 @@ body {
     border-radius: 50%;
     position: relative;
     z-index: 2;
-    overflow: visible;
-    animation: saturnPlanetGlitter 3.2s ease-in-out infinite alternate;
+    animation: saturnAtmosphericGlow 6s ease-in-out infinite alternate;
 }
 
 .planet-body,
 [data-theme="light"] .planet-body {
     background: linear-gradient(135deg, #93C5FD 0%, #60A5FA 50%, #3B82F6 100%);
-    box-shadow: 0 0 6px rgba(96, 165, 250, 0.2);
+    box-shadow: 0 0 10px rgba(96, 165, 250, 0.4), 0 0 22px rgba(59, 130, 246, 0.22);
 }
 
 [data-theme="dark"] .planet-body {
-    background: linear-gradient(135deg, #5B7DC4 0%, #364478 45%, #1F1538 100%) !important;
-    box-shadow: 0 0 6px rgba(91, 130, 234, 0.2), inset -4px -4px 10px rgba(0, 0, 0, 0.7) !important;
+    background: linear-gradient(135deg, #7A9CE6 0%, #465896 45%, #1F1538 100%) !important;
+    box-shadow: 0 0 12px rgba(122, 156, 230, 0.45), 0 0 26px rgba(91, 130, 234, 0.28), inset -4px -4px 10px rgba(0, 0, 0, 0.7) !important;
 }
 
-/* Saturn Planet Sphere Continuous Shimmering Glitter Animation */
-@keyframes saturnPlanetGlitter {
+/* Saturn Atmospheric Planetary Glow Cycle */
+@keyframes saturnAtmosphericGlow {
     0% {
-        filter: brightness(1) drop-shadow(0 0 2px rgba(91, 130, 234, 0.3));
-    }
-    35% {
-        filter: brightness(1.3) drop-shadow(0 0 10px rgba(160, 200, 255, 0.85)) drop-shadow(0 0 18px rgba(120, 170, 255, 0.55));
-    }
-    70% {
-        filter: brightness(0.95) drop-shadow(0 0 3px rgba(91, 130, 234, 0.35));
-    }
-    100% {
-        filter: brightness(1.4) drop-shadow(0 0 12px rgba(210, 230, 255, 0.95)) drop-shadow(0 0 22px rgba(150, 190, 255, 0.75));
-    }
-}
-
-/* Continuous Sparkling Diamond Points on Saturn Sphere */
-.planet-sparkle {
-    position: absolute;
-    width: 3.5px;
-    height: 3.5px;
-    background: #FFFFFF;
-    border-radius: 50%;
-    box-shadow: 0 0 5px #FFFFFF, 0 0 10px rgba(195, 220, 255, 0.95);
-    pointer-events: none;
-    z-index: 5;
-    animation: saturnSparkleTwinkle 2.4s ease-in-out infinite alternate;
-}
-
-.planet-sparkle.sp1 { top: 12px; left: 14px; animation-delay: 0s; }
-.planet-sparkle.sp2 { top: 28px; right: 12px; animation-delay: 0.9s; }
-.planet-sparkle.sp3 { top: 36px; left: 22px; animation-delay: 1.7s; }
-
-@keyframes saturnSparkleTwinkle {
-    0%, 100% {
-        transform: scale(0.35);
-        opacity: 0.25;
+        box-shadow: 0 0 8px rgba(122, 156, 230, 0.3), 0 0 18px rgba(91, 130, 234, 0.18), inset -4px -4px 10px rgba(0, 0, 0, 0.7);
     }
     50% {
-        transform: scale(1.6);
-        opacity: 1;
-        box-shadow: 0 0 8px #FFFFFF, 0 0 16px rgba(215, 235, 255, 1);
+        box-shadow: 0 0 16px rgba(144, 178, 255, 0.55), 0 0 32px rgba(105, 145, 255, 0.32), inset -4px -4px 10px rgba(0, 0, 0, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 22px rgba(170, 200, 255, 0.7), 0 0 42px rgba(122, 156, 230, 0.42), inset -4px -4px 10px rgba(0, 0, 0, 0.7);
     }
 }
 
