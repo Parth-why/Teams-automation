@@ -92,13 +92,13 @@ function toggleTheme() {
 function startShootingStars() {
     if (shootingStarTimer) clearInterval(shootingStarTimer);
 
-    // Initial shooting star after 2.5s
-    setTimeout(spawnSingleShootingStar, 2500);
+    // Initial shooting star after 1.5s
+    setTimeout(spawnSingleShootingStar, 1500);
 
-    // Periodic shooting star every 12-18 seconds
+    // Continuous shooting star meteors every 7-12 seconds
     shootingStarTimer = setInterval(() => {
         spawnSingleShootingStar();
-    }, Math.floor(Math.random() * 6000) + 12000);
+    }, Math.floor(Math.random() * 5000) + 7000);
 }
 
 function spawnSingleShootingStar() {
@@ -108,9 +108,10 @@ function spawnSingleShootingStar() {
     const star = document.createElement('div');
     star.className = 'shooting-star';
 
-    // Randomize starting coordinates in top 45% of viewport
-    const startX = Math.floor(Math.random() * (window.innerWidth - 200)) + 200;
-    const startY = Math.floor(Math.random() * (window.innerHeight * 0.45));
+    // Start on the left side of the screen (0% to 40% of viewport width)
+    const maxLeft = Math.max(100, Math.floor(window.innerWidth * 0.4));
+    const startX = Math.floor(Math.random() * maxLeft);
+    const startY = Math.floor(Math.random() * (window.innerHeight * 0.35));
 
     star.style.left = `${startX}px`;
     star.style.top = `${startY}px`;
@@ -119,7 +120,7 @@ function spawnSingleShootingStar() {
 
     setTimeout(() => {
         star.remove();
-    }, 2500);
+    }, 2400);
 }
 
 // ==========================================================================
