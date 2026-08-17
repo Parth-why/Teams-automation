@@ -1,0 +1,23 @@
+# Smart Teams Assignment Tracker Dependencies
+
+# Web Application Server
+flask>=3.0.0
+
+# Microsoft Authentication & Graph API
+msal>=1.28.0
+requests>=2.31.0
+
+# Desktop GUI & Notifications
+customtkinter>=5.2.0
+plyer>=2.1.0
+
+# Background Task Scheduler
+apscheduler>=3.10.0
+
+# Browser Fallback (Selenium)
+selenium>=4.20.0
+
+# Google Calendar & Tasks Integration
+google-api-python-client>=2.100.0
+google-auth-oauthlib>=1.2.0
+google-auth>=2.25.0

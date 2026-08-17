@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Teams & Google Tasks Sync Hub</title>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Chart.js CDN for interactive graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="stars-layer" id="starsLayer"></div>
+    <div class="hub-wrapper">
+        
+        <!-- Header -->
+        <header class="hub-header">
+            <div class="header-left">
+                <div class="header-icon">⚡</div>
+                <div>
+                    <h1>Teams & Google Tasks Sync Hub</h1>
+                    <p class="subtitle">Microsoft Teams Extraction & Google Tasks Checklist Synchronization</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
+                    <span class="theme-icon" id="themeIcon">🌙</span>
+                    <span class="theme-label" id="themeLabel">Dark</span>
+                </button>
+                <div class="status-indicator-badge" id="googleConnectionBadge">
+                    <span class="status-dot"></span>
+                    <span id="googleStatusText">Checking Google Connection...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Command Center Action Deck -->
+        <section class="command-deck">
+            <h2 class="section-title">Step 1: Scan &bull; Step 2: Sync to Google</h2>
+            <div class="action-grid">
+                
+                <!-- Action 1: Scan Teams Only -->
+                <div class="action-card primary" onclick="triggerScanTeams()">
+                    <div class="card-icon-wrapper blue">🔍</div>
+                    <div class="card-content">
+                        <h3>1. Scan Teams Assignments</h3>
+                        <p>Automatically open Teams, navigate to Assignments, scan all active deadlines, and save them locally into your database.</p>
+                    </div>
+                    <button class="card-action-btn primary" id="btnScanTeams">Scan Teams Now</button>
+                </div>
+
+                <!-- Action 2: Sync to Google Tasks -->
+                <div class="action-card success" onclick="triggerSyncGoogle()">
+                    <div class="card-icon-wrapper green">📅</div>
+                    <div class="card-content">
+                        <h3>2. Sync to Google Tasks</h3>
+                        <p>Push your scanned assignments into your dedicated 'Teams Assignments' Google Tasks checklist (due at 9:00 AM).</p>
+                    </div>
+                    <button class="card-action-btn success" id="btnSyncOnly">Sync Tasks to Google</button>
+                </div>
+
+                <!-- Action 3: Clear Google Tasks (Preserves Local DB) -->
+                <div class="action-card danger" onclick="openClearModal()">
+                    <div class="card-icon-wrapper red">🧹</div>
+                    <div class="card-content">
+                        <h3>Clear Google Tasks</h3>
+                        <p>Decongest your Google Tasks checklist by removing all cloud tasks while keeping your local assignments database safe.</p>
+                    </div>
+                    <button class="card-action-btn danger" id="btnClearGoogle">Clear Cloud Tasks</button>
+                </div>
+
+                <!-- Action 4: Export .ICS -->
+                <div class="action-card neutral" onclick="downloadIcs()">
+                    <div class="card-icon-wrapper purple">📥</div>
+                    <div class="card-content">
+                        <h3>Download Offline .ICS</h3>
+                        <p>Export a standard iCalendar (.ics) file with pre-configured 1-day deadline alarms for Apple Calendar, Outlook, or Thunderbird.</p>
+                    </div>
+                    <button class="card-action-btn neutral" id="btnExportIcs">Download .ICS</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Analytics & Workload Overview -->
+        <section class="analytics-grid">
+            
+            <!-- Widget 1: Urgency Breakdown -->
+            <div class="analytics-card">
+                <div class="card-header-row">
+                    <span class="card-header-icon">⏳</span>
+                    <h3>Deadline Urgency Radar</h3>
+                </div>
+                <div class="urgency-metrics">
+                    <div class="metric-box urgent">
+                        <span class="metric-num" id="metricUrgent48h">0</span>
+                        <span class="metric-lbl">Due ≤ 48 Hours</span>
+                    </div>
+                    <div class="metric-box upcoming">
+                        <span class="metric-num" id="metricThisWeek">0</span>
+                        <span class="metric-lbl">Due This Week</span>
+                    </div>
+                    <div class="metric-box later">
+                        <span class="metric-num" id="metricLater">0</span>
+                        <span class="metric-lbl">Later / Next Week</span>
+                    </div>
+                </div>
+                <div class="reminder-rule-box">
+                    <span class="rule-icon">🔔</span>
+                    <span class="rule-text"><strong>Checklist Rule:</strong> Checkable to-do items appear inside the <strong>'Teams Assignments'</strong> list on Google Tasks with 9:00 AM due date notifications.</span>
+                </div>
+            </div>
+
+            <!-- Widget 2: Interactive Subject Workload Graph (Option C Dual View) -->
+            <div class="analytics-card">
+                <div class="card-header-row space-between">
+                    <div class="header-title-group">
+                        <span class="card-header-icon">📊</span>
+                        <h3>Workload by Subject</h3>
+                    </div>
+                    <!-- Dual-View Toggle Switcher -->
+                    <div class="chart-toggle-group">
+                        <button class="chart-toggle-btn active" id="btnChartBar" onclick="switchChartMode('bar')" title="Horizontal Bars">📊 Bars</button>
+                        <button class="chart-toggle-btn" id="btnChartDonut" onclick="switchChartMode('doughnut')" title="Donut Distribution">🍩 Donut</button>
+                    </div>
+                </div>
+                <div class="chart-container-wrapper" id="chartWrapper">
+                    <canvas id="subjectWorkloadChart"></canvas>
+                    <div class="loading-mini" id="chartEmptyMessage" style="display: none;">No active scan yet. Click "1. Scan Teams Assignments" above to scan deadlines.</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Live Activity Console -->
+        <section class="console-section">
+            <div class="console-header">
+                <div class="console-title">
+                    <span class="terminal-icon">💻</span>
+                    <h3>Live Activity & Sync Log</h3>
+                </div>
+                <button class="console-refresh-btn" onclick="loadStatus()">Refresh Status</button>
+            </div>
+            <div class="console-log-window" id="consoleLogWindow">
+                <div class="log-entry info"><span class="log-time">[Init]</span> Connecting to local tracking server...</div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="hub-footer">
+            <div class="footer-left">
+                <span class="pulse-dot"></span>
+                <span id="footerDbStatus">Local Database: 0 assignments preserved (data/assignments.json)</span>
+            </div>
+            <div class="footer-right">
+                <span>View & Submit homework assignments inside Microsoft Teams</span>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Confirmation Modal for Clear Cloud Tasks -->
+    <div class="modal-backdrop" id="clearModal">
+        <div class="modal-box">
+            <div class="modal-top">
+                <span class="modal-warning-icon">🧹</span>
+                <h2>Clear Google Tasks?</h2>
+            </div>
+            <div class="modal-text">
+                <p>This command will decongest your cloud checklist by:</p>
+                <ul>
+                    <li>🗑️ Deleting all synced tasks from your <strong>Google Tasks</strong> list.</li>
+                </ul>
+                <p class="modal-highlight">✅ <strong>Your local database is preserved:</strong> You can re-sync your assignments back to Google Tasks anytime with 1 click!</p>
+            </div>
+            <div class="modal-btn-row">
+                <button class="modal-btn-cancel" onclick="closeClearModal()">Cancel</button>
+                <button class="modal-btn-confirm" id="btnConfirmClear" onclick="executeClearGoogle()">Yes, Clear Cloud Tasks</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-area" id="toastArea"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
