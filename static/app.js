@@ -536,9 +536,49 @@ function escapeHtml(str) {
         .replace(/'/g, "&#039;");
 }
 
+// ==========================================================================
+// Floating Asteroid Random Trajectory Physics Engine
+// ==========================================================================
+
+function initFloatingAsteroid() {
+    const asteroid = document.getElementById('floatingAsteroid');
+    if (!asteroid) return;
+
+    // Initial position
+    let curX = Math.floor(window.innerWidth * 0.15);
+    let curY = Math.floor(window.innerHeight * 0.25);
+    asteroid.style.left = `${curX}px`;
+    asteroid.style.top = `${curY}px`;
+
+    function moveAsteroidToRandomPoint() {
+        const margin = 50;
+        const maxX = Math.max(80, window.innerWidth - margin);
+        const maxY = Math.max(80, window.innerHeight - margin);
+
+        const targetX = Math.floor(Math.random() * (maxX - margin)) + margin;
+        const targetY = Math.floor(Math.random() * (maxY - margin)) + margin;
+
+        const dist = Math.hypot(targetX - curX, targetY - curY);
+        // Smooth floating speed: ~35px/s
+        const durationSec = Math.max(6, Math.min(18, dist / 35));
+
+        curX = targetX;
+        curY = targetY;
+
+        asteroid.style.transition = `left ${durationSec}s cubic-bezier(0.35, 0, 0.25, 1), top ${durationSec}s cubic-bezier(0.35, 0, 0.25, 1)`;
+        asteroid.style.left = `${targetX}px`;
+        asteroid.style.top = `${targetY}px`;
+
+        setTimeout(moveAsteroidToRandomPoint, durationSec * 1000);
+    }
+
+    setTimeout(moveAsteroidToRandomPoint, 1000);
+}
+
 // Auto-refresh & Theme Init on load
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initFloatingAsteroid();
     loadStatus();
     setInterval(loadStatus, 15000);
 });

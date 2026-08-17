@@ -511,6 +511,58 @@ body {
     background: radial-gradient(circle, #E84D67 0%, #6B4E9B 50%, transparent 80%);
 }
 
+/* 7. Floating Space Asteroid */
+.floating-asteroid {
+    position: absolute;
+    width: 32px;
+    height: 30px;
+    z-index: 1;
+    pointer-events: none;
+    transition: left 7s cubic-bezier(0.4, 0, 0.2, 1), top 7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.asteroid-body {
+    width: 32px;
+    height: 30px;
+    background: linear-gradient(135deg, #8E82AA 0%, #564778 45%, #251B44 100%);
+    border-radius: 46% 54% 62% 38% / 52% 44% 56% 48%;
+    box-shadow: 
+        0 0 12px rgba(157, 136, 206, 0.5),
+        inset -4px -4px 8px rgba(10, 5, 25, 0.85),
+        inset 2px 2px 5px rgba(255, 255, 255, 0.45);
+    position: relative;
+    animation: asteroidTumble 18s linear infinite;
+}
+
+.asteroid-crater {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(22, 14, 40, 0.7);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.asteroid-crater.c1 { top: 6px; left: 7px; width: 7px; height: 6px; }
+.asteroid-crater.c2 { bottom: 6px; right: 7px; width: 9px; height: 8px; }
+.asteroid-crater.c3 { top: 13px; right: 5px; width: 5px; height: 5px; }
+
+.asteroid-trail {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(157, 136, 206, 0.3) 0%, transparent 70%);
+    filter: blur(4px);
+    pointer-events: none;
+}
+
+@keyframes asteroidTumble {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* ==========================================================================
    ⭐ GLITTERING CELESTIAL STARFIELD & SLOW SOOTHING TWINKLE
    ========================================================================== */
@@ -562,7 +614,7 @@ body {
     animation: starsTwinkleSlowB 8.5s ease-in-out infinite alternate;
 }
 
-/* Third Layer: Sparkling Micro-Glitter Stardust */
+/* Third Layer: Sparkling Micro-Glitter Stardust (All Small Dots Glitter) */
 .stars-layer::after {
     content: '';
     position: absolute;
@@ -573,34 +625,36 @@ body {
     background-repeat: repeat;
     background-size: 440px 260px;
     background-image: 
-        radial-gradient(0.9px 0.9px at 70px 30px, var(--star-color-1), transparent),
-        radial-gradient(1.3px 1.3px at 190px 115px, var(--star-color-3), transparent),
-        radial-gradient(0.9px 0.9px at 280px 70px, var(--star-color-2), transparent),
-        radial-gradient(1.4px 1.4px at 390px 185px, var(--star-color-1), transparent),
-        radial-gradient(0.9px 0.9px at 140px 220px, var(--star-color-2), transparent),
-        radial-gradient(1.2px 1.2px at 320px 240px, var(--star-color-3), transparent),
-        radial-gradient(0.9px 0.9px at 430px 40px, var(--star-color-1), transparent);
+        radial-gradient(1px 1px at 70px 30px, #FFFFFF, transparent),
+        radial-gradient(1.4px 1.4px at 190px 115px, #BAE6FD, transparent),
+        radial-gradient(1px 1px at 280px 70px, #FDE68A, transparent),
+        radial-gradient(1.5px 1.5px at 390px 185px, #FFFFFF, transparent),
+        radial-gradient(1px 1px at 140px 220px, #FECDD3, transparent),
+        radial-gradient(1.3px 1.3px at 320px 240px, #DDD6FE, transparent),
+        radial-gradient(1px 1px at 430px 40px, #FFFFFF, transparent),
+        radial-gradient(1.2px 1.2px at 210px 20px, #BAE6FD, transparent),
+        radial-gradient(1px 1px at 360px 130px, #FDE68A, transparent);
     animation: starsGlitterSlowC 5.2s ease-in-out infinite alternate;
 }
 
 /* Slow, Soothing, Gentle Brightness & Glitter Fluctuation Keyframes */
 @keyframes starsTwinkleSlowA {
-    0% { opacity: 0.35; filter: brightness(0.9) drop-shadow(0 0 1px rgba(255, 255, 255, 0.4)); }
-    50% { opacity: 0.95; filter: brightness(1.35) drop-shadow(0 0 3px rgba(255, 255, 255, 0.85)); }
-    100% { opacity: 0.6; filter: brightness(1.05) drop-shadow(0 0 2px rgba(255, 255, 255, 0.6)); }
+    0% { opacity: 0.4; filter: brightness(0.9) drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.6)); }
+    50% { opacity: 1; filter: brightness(1.4) drop-shadow(0 0 3.5px rgba(255, 255, 255, 0.95)); }
+    100% { opacity: 0.65; filter: brightness(1.1) drop-shadow(0 0 2px rgba(255, 255, 255, 0.7)); }
 }
 
 @keyframes starsTwinkleSlowB {
-    0% { opacity: 0.9; filter: brightness(1.3) drop-shadow(0 0 3px rgba(246, 143, 159, 0.7)); }
-    50% { opacity: 0.3; filter: brightness(0.85) drop-shadow(0 0 1px rgba(246, 143, 159, 0.3)); }
-    100% { opacity: 0.8; filter: brightness(1.15) drop-shadow(0 0 2px rgba(246, 143, 159, 0.6)); }
+    0% { opacity: 0.95; filter: brightness(1.35) drop-shadow(0 0 3px rgba(246, 143, 159, 0.8)); }
+    50% { opacity: 0.35; filter: brightness(0.85) drop-shadow(0 0 1px rgba(246, 143, 159, 0.4)); }
+    100% { opacity: 0.85; filter: brightness(1.2) drop-shadow(0 0 2.5px rgba(246, 143, 159, 0.7)); }
 }
 
 @keyframes starsGlitterSlowC {
-    0% { opacity: 0.3; filter: brightness(0.85); }
-    40% { opacity: 1; filter: brightness(1.45) drop-shadow(0 0 3.5px rgba(255, 255, 255, 0.95)); }
-    75% { opacity: 0.45; filter: brightness(0.95); }
-    100% { opacity: 0.9; filter: brightness(1.3) drop-shadow(0 0 2.5px rgba(186, 215, 255, 0.8)); }
+    0% { opacity: 0.35; filter: brightness(0.9) drop-shadow(0 0 1px rgba(255, 255, 255, 0.6)); }
+    40% { opacity: 1; filter: brightness(1.5) drop-shadow(0 0 4px rgba(255, 255, 255, 1)); }
+    75% { opacity: 0.5; filter: brightness(1.0) drop-shadow(0 0 1.5px rgba(186, 215, 255, 0.7)); }
+    100% { opacity: 0.95; filter: brightness(1.35) drop-shadow(0 0 3px rgba(186, 215, 255, 0.9)); }
 }
 
 /* Continuous Shooting Stars Layer (Left to Right Sweep) */
