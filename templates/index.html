@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" data-font="outfit">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Teams & Google Tasks Sync Hub</title>
-    <!-- Modern Typography: Outfit, Inter, Space Grotesk, Plus Jakarta Sans -->
+    <!-- Google Fonts: Outfit & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
     <!-- Chart.js CDN for interactive graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <!-- Background Starry Sky Layer & Shooting Stars -->
-    <div class="stars-layer density-radiant" id="starsLayer">
+    <!-- Radiant Background Starry Sky Layer & Continuous Shooting Stars -->
+    <div class="stars-layer" id="starsLayer">
         <div class="shooting-stars-layer" id="shootingStarsLayer"></div>
     </div>
 
@@ -30,13 +30,7 @@
                 </div>
             </div>
             <div class="header-right">
-                <!-- Interactive Visual Settings Button -->
-                <button class="settings-toggle-btn" id="settingsToggleBtn" onclick="openVisualSettingsModal()" title="Customize Sky Animations & Fonts">
-                    <span class="btn-icon">⚙️</span>
-                    <span class="btn-text">Visuals</span>
-                </button>
-
-                <!-- Clean Dark/Light Mode Switcher -->
+                <!-- Theme Toggle Button -->
                 <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
                     <span class="theme-icon" id="themeIcon">🌙</span>
                     <span class="theme-label" id="themeLabel">Dark</span>
@@ -178,54 +172,6 @@
             </div>
         </footer>
 
-    </div>
-
-    <!-- Interactive Visual Settings & Sky Controls Modal -->
-    <div class="modal-backdrop" id="visualSettingsModal">
-        <div class="modal-box settings-modal-box">
-            <div class="modal-top">
-                <span class="modal-warning-icon">⚙️</span>
-                <h2>Visual & Sky Settings</h2>
-            </div>
-            
-            <!-- Star Density Controls -->
-            <div class="settings-group">
-                <label class="settings-group-lbl">⭐ Background Star Density</label>
-                <div class="chip-toggle-group">
-                    <button class="chip-btn active" data-density="radiant" onclick="setStarDensity('radiant')">✨ Radiant</button>
-                    <button class="chip-btn" data-density="subtle" onclick="setStarDensity('subtle')">⭐ Subtle</button>
-                    <button class="chip-btn" data-density="off" onclick="setStarDensity('off')">🚫 Off</button>
-                </div>
-            </div>
-
-            <!-- Shooting Stars & Meteors Toggle -->
-            <div class="settings-group">
-                <div class="toggle-row">
-                    <div>
-                        <span class="toggle-title">💫 Shooting Stars & Meteors</span>
-                        <p class="toggle-subtitle">Periodic shooting star animations with glowing light trails</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="toggleShootingStars" checked onchange="toggleShootingStarsState(this.checked)">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Typography Font Selector -->
-            <div class="settings-group">
-                <label class="settings-group-lbl">🔤 Typography Pairing</label>
-                <div class="chip-toggle-group">
-                    <button class="chip-btn active" data-font="outfit" onclick="setFontFamily('outfit')">Outfit + Inter</button>
-                    <button class="chip-btn" data-font="space" onclick="setFontFamily('space')">Space Grotesk</button>
-                    <button class="chip-btn" data-font="jakarta" onclick="setFontFamily('jakarta')">Plus Jakarta</button>
-                </div>
-            </div>
-
-            <div class="modal-btn-row">
-                <button class="modal-btn-confirm" onclick="closeVisualSettingsModal()">Done & Save</button>
-            </div>
-        </div>
     </div>
 
     <!-- Confirmation Modal for Clear Cloud Tasks -->
