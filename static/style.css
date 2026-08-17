@@ -789,58 +789,37 @@ body {
     }
 }
 
-.hub-wrapper {
-    width: 100%;
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 28px 24px 36px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    min-height: 100vh;
-    position: relative;
-    z-index: 1;
-}
-
 /* ==========================================================================
-   Centered Top Tablet Header (Positioned on Top, Centered, Not on Left Side)
+   Full-Width Top OmniSync Navigation Bar (Occupies Complete Top Area)
    ========================================================================== */
 
-.hub-header.tablet-header.centered-tablet {
-    background: var(--bg-surface);
-    border: 1.5px solid var(--border-medium);
-    border-radius: 9999px;
-    padding: 10px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16), var(--shadow-sm);
-    gap: 16px;
+.hub-top-bar {
     width: 100%;
+    background: var(--bg-surface);
+    border-bottom: 1.5px solid var(--border-medium);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.22);
+    position: relative;
+    z-index: 10;
+    padding: 14px 0;
+    margin: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tablet-left-wing {
+.top-bar-inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 28px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    flex: 1;
-    min-width: 180px;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
-.tablet-center-focus {
+.header-left {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex: 2;
-}
-
-.tablet-right-wing {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex: 1;
+    gap: 14px;
 }
 
 .header-dual-logo {
@@ -882,21 +861,19 @@ body {
     color: var(--text-tertiary);
 }
 
-.brand-title-group.centered {
+.brand-title-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    justify-content: center;
 }
 
-.brand-title-group.centered .brand-title-row {
+.brand-title-row {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
 }
 
-.brand-title-group.centered h1 {
+.brand-title-row h1 {
     font-size: 20px;
     font-weight: 800;
     color: var(--text-primary);
@@ -917,11 +894,30 @@ body {
     letter-spacing: 0.4px;
 }
 
-.brand-title-group.centered .subtitle {
+.brand-title-group .subtitle {
     font-size: 11.5px;
     color: var(--text-secondary);
     margin: 0;
     font-weight: 500;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hub-wrapper {
+    width: 100%;
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 28px 28px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    min-height: calc(100vh - 68px);
+    position: relative;
+    z-index: 1;
 }
 
 /* Theme Toggle Button */
@@ -1573,15 +1569,14 @@ body {
 
 @media (max-width: 880px) {
     .analytics-grid { grid-template-columns: 1fr; }
-    .hub-header.tablet-header.centered-tablet {
+    .top-bar-inner {
         flex-direction: column;
-        border-radius: 20px;
-        padding: 16px 20px;
+        align-items: flex-start;
         gap: 14px;
     }
-    .tablet-left-wing, .tablet-center-focus, .tablet-right-wing {
+    .header-right {
         width: 100%;
-        justify-content: center;
+        justify-content: space-between;
     }
     .celestial-orb { width: 55px; height: 55px; top: 15px; right: 3%; }
     .cosmic-planet, .spiral-galaxy, .supernova { display: none; }

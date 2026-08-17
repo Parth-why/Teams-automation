@@ -73,20 +73,11 @@
         </div>
     </div>
 
-    <div class="hub-wrapper">
-        
-        <!-- Centered OmniSync Tablet Header (Positioned on Top, Centered, Not on Left Side) -->
-        <header class="hub-header tablet-header centered-tablet" id="omniSyncHeader">
-            <!-- Left Wing: Google Connection Status Badge -->
-            <div class="tablet-left-wing">
-                <div class="status-indicator-badge" id="googleConnectionBadge">
-                    <span class="status-dot"></span>
-                    <span id="googleStatusText">Checking Google Connection...</span>
-                </div>
-            </div>
-
-            <!-- Center Focus: Dual Logo + OmniSync Brand & Subtitle -->
-            <div class="tablet-center-focus">
+    <!-- Full-Width Top OmniSync Navigation Bar (Occupies Complete Top Area) -->
+    <header class="hub-top-bar" id="omniSyncHeader">
+        <div class="top-bar-inner">
+            <div class="header-left">
+                <!-- Combined Microsoft Teams + Google Calendar Dual Logo Badge -->
                 <div class="header-dual-logo" title="Teams + Google Calendar Unified Sync">
                     <div class="logo-badge teams-badge" title="Microsoft Teams">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -109,23 +100,32 @@
                         </svg>
                     </div>
                 </div>
-                <div class="brand-title-group centered">
+                <div class="brand-title-group">
                     <div class="brand-title-row">
                         <h1>OmniSync</h1>
                         <span class="brand-badge">Live</span>
                     </div>
-                    <p class="subtitle">Microsoft Teams &amp; Google Calendar Automation Hub</p>
+                    <p class="subtitle">Teams &amp; Google Calendar Automation</p>
                 </div>
             </div>
 
-            <!-- Right Wing: Theme Toggle Button -->
-            <div class="tablet-right-wing">
+            <div class="header-right">
+                <!-- Theme Toggle Button -->
                 <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
                     <span class="theme-icon" id="themeIcon">🌙</span>
                     <span class="theme-label" id="themeLabel">Dark</span>
                 </button>
+
+                <!-- Google Connection Badge -->
+                <div class="status-indicator-badge" id="googleConnectionBadge">
+                    <span class="status-dot"></span>
+                    <span id="googleStatusText">Checking Google Connection...</span>
+                </div>
             </div>
-        </header>
+        </div>
+    </header>
+
+    <div class="hub-wrapper">
 
         <!-- Command Center Action Deck -->
         <section class="command-deck">
