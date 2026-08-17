@@ -789,34 +789,32 @@ body {
     }
 }
 
-.hub-wrapper {
-    width: 100%;
-    max-width: 1140px;
-    padding: 30px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    min-height: 100vh;
-    position: relative;
-    z-index: 1;
-}
-
 /* ==========================================================================
-   Floating Tablet / Capsule Dynamic Island Header
+   Full-Width Top OmniSync Tab / Banner Bar (Covers Complete Top Portion)
    ========================================================================== */
 
-.hub-header.tablet-header {
+.omnisync-top-tab {
+    width: 100%;
     background: var(--bg-surface);
-    border: 1.5px solid var(--border-medium);
-    border-radius: 9999px;
-    padding: 10px 24px;
+    border-bottom: 1.5px solid var(--border-medium);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    padding: 10px 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.top-tab-container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16), var(--shadow-sm);
-    flex-wrap: wrap;
     gap: 16px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-wrap: wrap;
 }
 
 .header-left {
@@ -908,6 +906,19 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.hub-wrapper {
+    width: 100%;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 24px 24px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: calc(100vh - 64px);
+    position: relative;
+    z-index: 1;
 }
 
 /* Theme Toggle Button */
