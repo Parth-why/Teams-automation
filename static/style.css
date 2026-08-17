@@ -280,21 +280,21 @@ body {
     100% { transform: translateY(-8px) scale(1.01); }
 }
 
-/* 2. Ringed Cosmic Planet (Soft Ambient Glow) */
+/* 2. Ringed Cosmic Planet (Saturn with Thick Circular Orbiting Rings) */
 .cosmic-planet {
     position: absolute;
-    top: 170px;
+    top: 165px;
     left: 4.5%;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     z-index: 1;
     pointer-events: none;
     animation: planetFloat 8s ease-in-out infinite alternate;
 }
 
 .planet-body {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     position: relative;
     z-index: 2;
@@ -310,25 +310,61 @@ body {
     box-shadow: 0 0 6px rgba(96, 165, 250, 0.15);
 }
 
+/* Thick Dual Rings Orbiting in Circular Motion Around Saturn */
+.planet-ring-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 38px;
+    transform: translate(-50%, -50%) rotate(-24deg);
+    transform-style: preserve-3d;
+    z-index: 3;
+    pointer-events: none;
+}
+
 .planet-ring {
     position: absolute;
-    top: 17px;
-    left: -20px;
-    width: 88px;
-    height: 16px;
+    top: 50%;
+    left: 50%;
     border-radius: 50%;
-    transform: rotate(-24deg);
-    z-index: 3;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
 }
 
-[data-theme="dark"] .planet-ring {
-    border: 1.5px solid rgba(164, 184, 233, 0.4);
-    box-shadow: 0 0 4px rgba(122, 156, 230, 0.15);
+.planet-ring.ring-main {
+    width: 108px;
+    height: 32px;
+    border: 4.5px solid rgba(164, 184, 233, 0.75);
+    border-top: 5px solid rgba(210, 226, 255, 0.9);
+    border-bottom: 4px solid rgba(120, 142, 195, 0.5);
+    animation: ringCircularSpin 14s linear infinite;
 }
 
-:root .planet-ring, [data-theme="light"] .planet-ring {
-    border: 1.5px solid rgba(147, 197, 253, 0.4);
-    box-shadow: 0 0 4px rgba(147, 197, 253, 0.15);
+.planet-ring.ring-outer {
+    width: 122px;
+    height: 38px;
+    border: 2.5px dashed rgba(190, 210, 255, 0.5);
+    animation: ringCircularSpinReverse 20s linear infinite;
+}
+
+[data-theme="light"] .planet-ring.ring-main {
+    border-color: rgba(147, 197, 253, 0.7);
+    border-top-color: rgba(191, 219, 254, 0.9);
+}
+
+[data-theme="light"] .planet-ring.ring-outer {
+    border-color: rgba(147, 197, 253, 0.45);
+}
+
+@keyframes ringCircularSpin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes ringCircularSpinReverse {
+    0% { transform: translate(-50%, -50%) rotate(360deg); }
+    100% { transform: translate(-50%, -50%) rotate(0deg); }
 }
 
 @keyframes planetFloat {
@@ -524,38 +560,64 @@ body {
     background: radial-gradient(circle, #E84D67 0%, #6B4E9B 50%, transparent 80%);
 }
 
-/* 7. Floating Space Asteroid (Random Organic Geometry, Zero Glow, Matte Shading) */
+/* 7. Floating Space Asteroid (Enlarged, Zero Glow, Jagged Multi-Faceted Rock) */
 .floating-asteroid {
     position: absolute;
-    width: 52px;
-    height: 48px;
+    width: 74px;
+    height: 68px;
     z-index: 1;
     pointer-events: none;
+    box-shadow: none !important;
+    filter: none !important;
 }
 
 .asteroid-body {
-    width: 52px;
-    height: 48px;
-    background: linear-gradient(145deg, #7A7092 0%, #4D4168 45%, #251B38 100%);
-    /* Irregular, faceted, asymmetrical stone polygon shape */
-    clip-path: polygon(18% 0%, 54% 3%, 82% 14%, 98% 38%, 94% 72%, 72% 96%, 36% 100%, 8% 86%, 0% 54%, 4% 20%);
-    box-shadow: 
-        none !important;
+    width: 74px;
+    height: 68px;
+    background: linear-gradient(145deg, #6B6282 0%, #44385E 45%, #201734 100%);
+    /* Highly jagged, asymmetrical, natural multi-faceted stone polygon */
+    clip-path: polygon(14% 3%, 42% 0%, 74% 8%, 96% 22%, 100% 48%, 88% 74%, 94% 88%, 68% 100%, 46% 92%, 24% 98%, 4% 84%, 0% 56%, 6% 32%, 2% 16%);
+    box-shadow: none !important;
+    filter: none !important;
     position: relative;
-    animation: asteroidTumble 32s linear infinite;
+    animation: asteroidTumble 38s linear infinite;
 }
 
 .asteroid-crater {
     position: absolute;
     border-radius: 50%;
-    background: rgba(14, 8, 26, 0.85);
-    box-shadow: inset 1.5px 1.5px 3px rgba(0, 0, 0, 0.95);
+    background: rgba(12, 6, 22, 0.9);
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.95);
 }
 
-.asteroid-crater.c1 { top: 10px; left: 12px; width: 10px; height: 9px; }
-.asteroid-crater.c2 { bottom: 12px; right: 12px; width: 12px; height: 11px; }
-.asteroid-crater.c3 { top: 20px; right: 9px; width: 7px; height: 7px; }
-.asteroid-crater.c4 { bottom: 14px; left: 14px; width: 7px; height: 6px; }
+.asteroid-crater.c1 { top: 12px; left: 16px; width: 14px; height: 12px; }
+.asteroid-crater.c2 { bottom: 16px; right: 16px; width: 16px; height: 14px; }
+.asteroid-crater.c3 { top: 28px; right: 12px; width: 10px; height: 10px; }
+.asteroid-crater.c4 { bottom: 18px; left: 18px; width: 9px; height: 8px; }
+.asteroid-crater.c5 { top: 16px; right: 28px; width: 7px; height: 6px; }
+
+.asteroid-facet {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+}
+
+.asteroid-facet.f1 {
+    top: 6px;
+    left: 28px;
+    width: 32px;
+    height: 1.5px;
+    transform: rotate(28deg);
+}
+
+.asteroid-facet.f2 {
+    bottom: 24px;
+    left: 10px;
+    width: 26px;
+    height: 1.5px;
+    transform: rotate(-35deg);
+    background: rgba(0, 0, 0, 0.4);
+}
 
 @keyframes asteroidTumble {
     0% { transform: rotate(0deg); }
