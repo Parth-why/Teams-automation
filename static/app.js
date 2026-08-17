@@ -537,30 +537,68 @@ function escapeHtml(str) {
 }
 
 // ==========================================================================
-// Floating Asteroid Random Trajectory Physics Engine
+// Dynamic Individual Glitter Stars Generator (Different Peak Timings)
+// ==========================================================================
+
+function initDynamicGlitterStars() {
+    const container = document.getElementById('dynamicGlitterStars');
+    if (!container) return;
+
+    container.innerHTML = '';
+    const starCount = 70;
+    const starColors = ['#FFFFFF', '#BAE6FD', '#FDE68A', '#FECDD3', '#DDD6FE', '#A7F3D0'];
+
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('span');
+        star.className = 'glitter-star';
+
+        const x = (Math.random() * 99).toFixed(2);
+        const y = (Math.random() * 98).toFixed(2);
+        const size = (Math.random() * 1.6 + 0.9).toFixed(1);
+        const color = starColors[Math.floor(Math.random() * starColors.length)];
+
+        // Every star has a distinct duration (4.5s to 9.5s) and random phase offset (-0.5s to -10s)
+        const duration = (Math.random() * 5.0 + 4.5).toFixed(2);
+        const delay = (-(Math.random() * 9.5)).toFixed(2);
+
+        star.style.left = `${x}%`;
+        star.style.top = `${y}%`;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.backgroundColor = color;
+        star.style.color = color;
+        star.style.animationDuration = `${duration}s`;
+        star.style.animationDelay = `${delay}s`;
+
+        container.appendChild(star);
+    }
+}
+
+// ==========================================================================
+// Floating Asteroid Random Trajectory Physics Engine (Slow & Majestic)
 // ==========================================================================
 
 function initFloatingAsteroid() {
     const asteroid = document.getElementById('floatingAsteroid');
     if (!asteroid) return;
 
-    // Initial position
-    let curX = Math.floor(window.innerWidth * 0.15);
-    let curY = Math.floor(window.innerHeight * 0.25);
+    // Initial starting position
+    let curX = Math.floor(window.innerWidth * 0.12);
+    let curY = Math.floor(window.innerHeight * 0.22);
     asteroid.style.left = `${curX}px`;
     asteroid.style.top = `${curY}px`;
 
     function moveAsteroidToRandomPoint() {
-        const margin = 50;
-        const maxX = Math.max(80, window.innerWidth - margin);
-        const maxY = Math.max(80, window.innerHeight - margin);
+        const margin = 60;
+        const maxX = Math.max(90, window.innerWidth - margin);
+        const maxY = Math.max(90, window.innerHeight - margin);
 
         const targetX = Math.floor(Math.random() * (maxX - margin)) + margin;
         const targetY = Math.floor(Math.random() * (maxY - margin)) + margin;
 
         const dist = Math.hypot(targetX - curX, targetY - curY);
-        // Smooth floating speed: ~35px/s
-        const durationSec = Math.max(6, Math.min(18, dist / 35));
+        // Calm, majestic, slow speed: ~15px/s (takes 18s to 42s per leg)
+        const durationSec = Math.max(18, Math.min(42, dist / 15));
 
         curX = targetX;
         curY = targetY;
@@ -572,12 +610,13 @@ function initFloatingAsteroid() {
         setTimeout(moveAsteroidToRandomPoint, durationSec * 1000);
     }
 
-    setTimeout(moveAsteroidToRandomPoint, 1000);
+    setTimeout(moveAsteroidToRandomPoint, 1200);
 }
 
 // Auto-refresh & Theme Init on load
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initDynamicGlitterStars();
     initFloatingAsteroid();
     loadStatus();
     setInterval(loadStatus, 15000);
