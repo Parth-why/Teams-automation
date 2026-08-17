@@ -1,9 +1,10 @@
 /* 
  * Smart Teams & Google Tasks Sync Hub
  * Theme System:
- *   - Light Mode: 🌆 Evening Sunset Sky (Solid White Cards + Radiant Sunset Stars)
- *   - Dark Mode:  🌕 Moonlit Twilight Sky (Deep Gradient Night Sky + Constant Twinkling Stars)
+ *   - Light Mode: 🌆 Evening Sunset Sky (Solid White Cards + Sunset Sun & Stars)
+ *   - Dark Mode:  🌕 Moonlit Twilight Sky (Deep Gradient Night Sky + Cosmic Bodies & Stars)
  * Features:
+ *   - Cosmic Celestial Bodies: Luminous Moon/Sun Orb, Ringed Planet, Distant Moon, Nebula Clouds
  *   - Rich Multi-Stop Atmospheric Gradient Night Sky
  *   - Constant Multi-Layer Twinkling Stars
  *   - Left-to-Right Shooting Star Meteors
@@ -202,6 +203,181 @@ body {
 }
 
 /* ==========================================================================
+   🪐 COSMIC BODIES (MOON/SUN, RINGED PLANET, NEBULA DUST)
+   ========================================================================== */
+
+/* 1. Celestial Orb (Luminous Moon in Dark Mode / Sunset Sun in Light Mode) */
+.celestial-orb {
+    position: absolute;
+    top: 32px;
+    right: 6%;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+    animation: celestialFloat 6s ease-in-out infinite alternate;
+}
+
+/* Dark Theme: Pearlescent Moonlit Plum Moon */
+[data-theme="dark"] .celestial-orb {
+    background: linear-gradient(145deg, #F0F4FC 0%, #D4E0FB 35%, #9D88CE 75%, #6B5599 100%);
+    box-shadow: 
+        0 0 35px rgba(122, 156, 230, 0.45),
+        0 0 75px rgba(157, 136, 206, 0.3),
+        inset -6px -6px 16px rgba(18, 10, 36, 0.55);
+}
+
+/* Light Theme: Warm Sunset Golden Sun */
+:root .celestial-orb, [data-theme="light"] .celestial-orb {
+    background: linear-gradient(135deg, #FFF5D6 0%, #FBBF24 50%, #F472B6 100%);
+    box-shadow: 
+        0 0 45px rgba(251, 191, 36, 0.45),
+        0 0 90px rgba(244, 114, 182, 0.3);
+}
+
+/* Moon Craters */
+.orb-crater {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(80, 60, 120, 0.22);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .crater-1 {
+    top: 22px;
+    left: 20px;
+    width: 14px;
+    height: 14px;
+}
+
+[data-theme="dark"] .crater-2 {
+    bottom: 24px;
+    right: 22px;
+    width: 18px;
+    height: 18px;
+}
+
+:root .orb-crater, [data-theme="light"] .orb-crater {
+    display: none;
+}
+
+@keyframes celestialFloat {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-8px) scale(1.02); }
+}
+
+/* 2. Ringed Cosmic Planet (Saturn Style) */
+.cosmic-planet {
+    position: absolute;
+    top: 170px;
+    left: 4.5%;
+    width: 48px;
+    height: 48px;
+    z-index: 1;
+    pointer-events: none;
+    animation: planetFloat 8s ease-in-out infinite alternate;
+}
+
+.planet-body {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+}
+
+[data-theme="dark"] .planet-body {
+    background: linear-gradient(135deg, #6A8DD6 0%, #4164B3 45%, #251B44 100%);
+    box-shadow: 0 0 16px rgba(91, 130, 234, 0.35), inset -4px -4px 10px rgba(0, 0, 0, 0.6);
+}
+
+:root .planet-body, [data-theme="light"] .planet-body {
+    background: linear-gradient(135deg, #93C5FD 0%, #60A5FA 50%, #3B82F6 100%);
+    box-shadow: 0 0 14px rgba(96, 165, 250, 0.35);
+}
+
+.planet-ring {
+    position: absolute;
+    top: 17px;
+    left: -20px;
+    width: 88px;
+    height: 16px;
+    border-radius: 50%;
+    transform: rotate(-24deg);
+    z-index: 3;
+}
+
+[data-theme="dark"] .planet-ring {
+    border: 2px solid rgba(164, 184, 233, 0.65);
+    box-shadow: 0 0 10px rgba(122, 156, 230, 0.35);
+}
+
+:root .planet-ring, [data-theme="light"] .planet-ring {
+    border: 2px solid rgba(147, 197, 253, 0.6);
+    box-shadow: 0 0 8px rgba(147, 197, 253, 0.3);
+}
+
+@keyframes planetFloat {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(10px) rotate(2deg); }
+}
+
+/* 3. Distant Orbiting Moon */
+.distant-moon {
+    position: absolute;
+    top: 140px;
+    left: 10.5%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+    animation: moonOrbit 5s ease-in-out infinite alternate;
+}
+
+[data-theme="dark"] .distant-moon {
+    background: #E6EEFA;
+    box-shadow: 0 0 10px rgba(230, 238, 250, 0.85);
+}
+
+:root .distant-moon, [data-theme="light"] .distant-moon {
+    background: #FEF3C7;
+    box-shadow: 0 0 8px rgba(254, 243, 199, 0.85);
+}
+
+@keyframes moonOrbit {
+    0% { transform: translateY(0) translateX(0); }
+    100% { transform: translateY(-6px) translateX(4px); }
+}
+
+/* 4. Cosmic Nebula Dust */
+.nebula-cloud {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.22;
+}
+
+.nebula-1 {
+    top: -50px;
+    right: 0;
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(circle, #7A9CE6 0%, #9D88CE 50%, transparent 80%);
+}
+
+.nebula-2 {
+    bottom: 50px;
+    left: -80px;
+    width: 440px;
+    height: 440px;
+    background: radial-gradient(circle, #E84D67 0%, #6B4E9B 50%, transparent 80%);
+}
+
+/* ==========================================================================
    ⭐ CONSTANT MULTI-LAYER TWINKLING STARS & LEFT-TO-RIGHT METEORS
    ========================================================================== */
 
@@ -229,7 +405,7 @@ body {
     animation: starsTwinkleA 2.5s ease-in-out infinite alternate;
 }
 
-/* Second Asynchronous Twinkling Star Layer for Constant Sparkle */
+/* Second Asynchronous Twinkling Star Layer */
 .stars-layer::before {
     content: '';
     position: absolute;
@@ -1041,4 +1217,6 @@ body {
 @media (max-width: 768px) {
     .analytics-grid { grid-template-columns: 1fr; }
     .hub-header { flex-direction: column; align-items: flex-start; }
+    .celestial-orb { width: 55px; height: 55px; top: 15px; right: 3%; }
+    .cosmic-planet { display: none; }
 }
