@@ -15,7 +15,7 @@ class TestWebApp(unittest.TestCase):
         """Test GET / renders HTML dashboard."""
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Teams & Google Tasks Sync Hub", response.data)
+        self.assertIn(b"OmniSync", response.data)
 
     def test_get_status_api(self) -> None:
         """Test GET /api/status returns valid JSON with statistics and subject breakdown."""

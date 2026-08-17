@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Teams & Google Tasks Sync Hub</title>
+    <title>OmniSync &bull; Teams & Google Calendar Hub</title>
     <!-- Google Fonts: Outfit & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,16 +24,6 @@
             <div class="orb-halo"></div>
             <div class="orb-crater crater-1"></div>
             <div class="orb-crater crater-2"></div>
-        </div>
-
-        <!-- Ringed Cosmic Planet (Saturn with Planetary Disc Rings Revolving Around Equatorial Axis) -->
-        <div class="cosmic-planet" id="cosmicPlanet">
-            <!-- Back of Ring (Passes behind planet body) -->
-            <div class="planet-ring-disc ring-back"></div>
-            <!-- Planet Sphere -->
-            <div class="planet-body"></div>
-            <!-- Front of Ring (Passes in front of planet body) -->
-            <div class="planet-ring-disc ring-front"></div>
         </div>
 
         <!-- Distant Orbiting Moon -->
@@ -60,7 +50,17 @@
         <div class="shooting-stars-layer" id="shootingStarsLayer"></div>
     </div>
 
-    <!-- Independent Floating Asteroid (Outside Stars Layer - 100% Constant Solid Brightness, Zero Glitter) -->
+    <!-- Saturn with Continuous Revolving Equatorial Planetary Ring Disc (Outside Stars Layer - 100% Solid, Zero Glitter) -->
+    <div class="cosmic-planet" id="cosmicPlanet">
+        <!-- Rear Ring Disc Section (Behind Planet Sphere) -->
+        <div class="saturn-ring-disc ring-back"></div>
+        <!-- Saturn Sphere -->
+        <div class="planet-body"></div>
+        <!-- Front Ring Disc Section (In Front of Planet Sphere) -->
+        <div class="saturn-ring-disc ring-front"></div>
+    </div>
+
+    <!-- Large Floating Space Asteroid (Outside Stars Layer - 100% Constant Solid Brightness, Zero Glitter) -->
     <div class="floating-asteroid" id="floatingAsteroid">
         <div class="asteroid-body">
             <div class="asteroid-crater c1"></div>
@@ -75,13 +75,35 @@
 
     <div class="hub-wrapper">
         
-        <!-- Header -->
+        <!-- Header with Dual Teams + Google Calendar Logo and Suitable Name -->
         <header class="hub-header">
             <div class="header-left">
-                <div class="header-icon">⚡</div>
+                <!-- Combined Microsoft Teams + Google Calendar Dual Logo Badge -->
+                <div class="header-dual-logo" title="Teams + Google Calendar Unified Sync">
+                    <div class="logo-badge teams-badge" title="Microsoft Teams">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <path d="M19.5 7.5H15.5V16.5H19.5C20.6 16.5 21.5 15.6 21.5 14.5V9.5C21.5 8.4 20.6 7.5 19.5 7.5Z" fill="#505AC9"/>
+                            <path d="M14.5 5.5H7.5C6.4 5.5 5.5 6.4 5.5 7.5V16.5C5.5 17.6 6.4 18.5 7.5 18.5H14.5C15.6 18.5 16.5 17.6 16.5 16.5V7.5C16.5 6.4 15.6 5.5 14.5 5.5Z" fill="#7B83EB"/>
+                            <circle cx="17.5" cy="5" r="2" fill="#505AC9"/>
+                            <circle cx="11" cy="3.5" r="2.5" fill="#7B83EB"/>
+                            <path d="M8.5 10H13.5V11.5H11.8V16H10.2V11.5H8.5V10Z" fill="#FFFFFF"/>
+                        </svg>
+                    </div>
+                    <span class="logo-connector">⇄</span>
+                    <div class="logo-badge gcal-badge" title="Google Calendar">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                            <rect x="3" y="4" width="18" height="17" rx="3.5" fill="#FFFFFF"/>
+                            <path d="M3 8.5H21V17.5C21 19.433 19.433 21 17.5 21H6.5C4.567 21 3 19.433 3 17.5V8.5Z" fill="#4285F4"/>
+                            <path d="M3 7.5C3 5.567 4.567 4 6.5 4H17.5C19.433 4 21 5.567 21 7.5V8.5H3V7.5Z" fill="#EA4335"/>
+                            <rect x="7" y="2" width="2" height="4" rx="1" fill="#34A853"/>
+                            <rect x="15" y="2" width="2" height="4" rx="1" fill="#FBBC05"/>
+                            <text x="12" y="16.5" fill="#FFFFFF" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="bold" text-anchor="middle">31</text>
+                        </svg>
+                    </div>
+                </div>
                 <div>
-                    <h1>Teams & Google Tasks Sync Hub</h1>
-                    <p class="subtitle">Microsoft Teams Extraction & Google Tasks Checklist Synchronization</p>
+                    <h1>OmniSync</h1>
+                    <p class="subtitle">Microsoft Teams & Google Calendar Automation Hub</p>
                 </div>
             </div>
             <div class="header-right">
@@ -101,14 +123,14 @@
 
         <!-- Command Center Action Deck -->
         <section class="command-deck">
-            <h2 class="section-title">Step 1: Scan &bull; Step 2: Sync to Google</h2>
+            <h2 class="section-title">Sync Operations Deck</h2>
             <div class="action-grid">
                 
                 <!-- Action 1: Scan Teams Only -->
                 <div class="action-card primary" onclick="triggerScanTeams()">
                     <div class="card-icon-wrapper blue">🔍</div>
                     <div class="card-content">
-                        <h3>1. Scan Teams Assignments</h3>
+                        <h3>Scan Teams Assignments</h3>
                         <p>Automatically open Teams, navigate to Assignments, scan all active deadlines, and save them locally into your database.</p>
                     </div>
                     <button class="card-action-btn primary" id="btnScanTeams">Scan Teams Now</button>
@@ -118,7 +140,7 @@
                 <div class="action-card success" onclick="triggerSyncGoogle()">
                     <div class="card-icon-wrapper green">📅</div>
                     <div class="card-content">
-                        <h3>2. Sync to Google Tasks</h3>
+                        <h3>Sync to Google Tasks</h3>
                         <p>Push your scanned assignments into your dedicated 'Teams Assignments' Google Tasks checklist (due at 9:00 AM).</p>
                     </div>
                     <button class="card-action-btn success" id="btnSyncOnly">Sync Tasks to Google</button>
