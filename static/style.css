@@ -219,7 +219,7 @@ body {
     animation: celestialFloat 6s ease-in-out infinite alternate;
 }
 
-/* 1. Celestial Orb (Soft Subtle Moon in Dark Mode / Sunset Sun in Light Mode) */
+/* 1. Celestial Orb (Steady Core Brightness with Expanding Lunar Atmospheric Halo) */
 .celestial-orb {
     position: absolute;
     top: 32px;
@@ -230,6 +230,21 @@ body {
     z-index: 1;
     pointer-events: none;
     animation: celestialFloat 6s ease-in-out infinite alternate;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* Atmospheric Transparency Aura / Expanding Circle Halo */
+.orb-halo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    transform: translate(-50%, -50%);
 }
 
 /* Light Theme: Warm Sunset Golden Sun */
@@ -246,13 +261,39 @@ body {
     display: none;
 }
 
-/* Dark Theme: Soft Moonlit Silver Moon with Lunar Craters */
+[data-theme="light"] .orb-halo {
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, rgba(244, 114, 182, 0.15) 50%, transparent 75%);
+    animation: moonTransparencyRadiusBreathe 8s ease-in-out infinite alternate;
+}
+
+/* Dark Theme: Soft Moonlit Silver Moon (100% Constant Solid Brightness) */
 [data-theme="dark"] .celestial-orb {
     background: linear-gradient(145deg, #F0F4FC 0%, #D4E0FB 35%, #9D88CE 75%, #634F8C 100%) !important;
     box-shadow: 
         0 0 14px rgba(122, 156, 230, 0.25),
-        0 0 30px rgba(157, 136, 206, 0.15),
+        0 0 28px rgba(157, 136, 206, 0.15),
         inset -5px -5px 14px rgba(16, 9, 32, 0.65) !important;
+}
+
+/* Dark Theme Atmospheric Transparency Aura (Expanding Circle Radius Wave) */
+[data-theme="dark"] .orb-halo {
+    background: radial-gradient(circle, rgba(185, 210, 255, 0.38) 0%, rgba(157, 136, 206, 0.22) 42%, rgba(120, 100, 180, 0) 75%);
+    animation: moonTransparencyRadiusBreathe 7s ease-in-out infinite alternate;
+}
+
+@keyframes moonTransparencyRadiusBreathe {
+    0% {
+        transform: translate(-50%, -50%) scale(1.0);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.8);
+        opacity: 0.65;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2.6);
+        opacity: 0.15;
+    }
 }
 
 /* Moon Craters */
@@ -283,7 +324,7 @@ body {
     100% { transform: translateY(-8px) scale(1.01); }
 }
 
-/* 2. Ringed Cosmic Planet (Saturn with Planetary Equatorial Disc Rings) */
+/* 2. Ringed Cosmic Planet (Saturn with Continuous Non-Stop Ring Glitter) */
 .cosmic-planet {
     position: fixed;
     top: 165px;
@@ -314,7 +355,7 @@ body {
     box-shadow: 0 0 6px rgba(91, 130, 234, 0.15), inset -4px -4px 10px rgba(0, 0, 0, 0.7) !important;
 }
 
-/* Saturn's Planetary Ring Disc (Continuous Equatorial Revolution, Solid Lighting, Zero Glitter) */
+/* Saturn's Planetary Ring Disc (Continuous Equatorial Revolution + Non-Stop Shimmering Glitter) */
 .saturn-ring-disc {
     position: absolute;
     top: 50%;
@@ -325,8 +366,22 @@ body {
     border-radius: 50%;
     pointer-events: none;
     box-sizing: border-box;
-    opacity: 1 !important;
-    filter: none !important;
+    animation: saturnRingGlitter 3.2s ease-in-out infinite alternate;
+}
+
+@keyframes saturnRingGlitter {
+    0% {
+        filter: drop-shadow(0 0 3px rgba(185, 210, 255, 0.45)) brightness(1);
+    }
+    35% {
+        filter: drop-shadow(0 0 10px rgba(230, 242, 255, 0.85)) drop-shadow(0 0 16px rgba(164, 184, 233, 0.6)) brightness(1.25);
+    }
+    70% {
+        filter: drop-shadow(0 0 4px rgba(170, 200, 255, 0.5)) brightness(0.98);
+    }
+    100% {
+        filter: drop-shadow(0 0 12px rgba(245, 250, 255, 0.95)) drop-shadow(0 0 22px rgba(195, 215, 255, 0.75)) brightness(1.35);
+    }
 }
 
 .saturn-ring-disc.ring-back {
@@ -359,6 +414,35 @@ body {
     border-bottom-color: rgba(147, 197, 253, 0.95);
     border-left-color: rgba(147, 197, 253, 0.8);
     border-right-color: rgba(147, 197, 253, 0.8);
+}
+
+/* Continuous Sparkling Diamond Points on Saturn */
+.saturn-sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #FFFFFF, 0 0 12px rgba(195, 220, 255, 0.9);
+    pointer-events: none;
+    z-index: 4;
+    animation: saturnSparkleTwinkle 2.2s ease-in-out infinite alternate;
+}
+
+.saturn-sparkle.s1 { top: 8px; left: -12px; animation-delay: 0s; }
+.saturn-sparkle.s2 { top: 38px; right: -14px; animation-delay: 0.8s; }
+.saturn-sparkle.s3 { top: 0px; right: 10px; animation-delay: 1.5s; }
+
+@keyframes saturnSparkleTwinkle {
+    0%, 100% {
+        transform: scale(0.35);
+        opacity: 0.25;
+    }
+    50% {
+        transform: scale(1.6);
+        opacity: 1;
+        box-shadow: 0 0 8px #FFFFFF, 0 0 18px rgba(215, 235, 255, 1);
+    }
 }
 
 @keyframes planetFloat {
