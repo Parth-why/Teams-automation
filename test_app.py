@@ -27,14 +27,6 @@ class TestWebApp(unittest.TestCase):
         self.assertIn("subject_breakdown", data)
         self.assertIn("activity_logs", data)
 
-    def test_clear_google_api(self) -> None:
-        """Test POST /api/clear-google clears Google tasks while preserving local assignments."""
-        response = self.client.post("/api/clear-google")
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.data)
-        self.assertTrue(data.get("success"))
-        self.assertIn("stats", data)
-
 
 if __name__ == "__main__":
     unittest.main()

@@ -334,6 +334,6 @@ class GoogleCalendarSync:
                 gcal_task_synced=False,
             )
 
-        generate_ics_calendar(assignments)
+        generate_ics_calendar([])
 
         return {"tasks_deleted": tasks_deleted}
