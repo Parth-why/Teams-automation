@@ -55,10 +55,13 @@ def index() -> Any:
 @app.route("/api/status", methods=["GET"])
 def get_status() -> Any:
     """Return high-level analytics, subject distribution, and sync status."""
-    global has_scanned_in_session
+    assignments = manager.get_all_assignments(sort_by_due=True)
+    today = datetime.now().date()
 
-    if not has_scanned_in_session:
-        # Reset state before any active scan in the session
+    total = len(assignments)
+    synced_tasks = sum(1 for a in assignments if a.get("gcal_task_synced", False))
+
+    if total == 0:
         return jsonify({
             "success": True,
             "has_scanned": False,
@@ -74,12 +77,6 @@ def get_status() -> Any:
             "subject_breakdown": {},
             "activity_logs": activity_logs,
         })
-
-    assignments = manager.get_all_assignments(sort_by_due=True)
-    today = datetime.now().date()
-
-    total = len(assignments)
-    synced_tasks = sum(1 for a in assignments if a.get("gcal_task_synced", False))
 
     # Subject Workload Breakdown
     subject_counts: dict[str, int] = {}
@@ -186,20 +183,17 @@ def sync_google() -> Any:
 
 @app.route("/api/clear-google", methods=["POST"])
 def clear_google() -> Any:
-    """Delete all synced tasks from Google Tasks and reset dashboard metrics to clean start state."""
-    global has_scanned_in_session
+    """Delete all synced tasks from Google Tasks while preserving local scanned assignments in database."""
     assignments = manager.get_all_assignments()
-    add_log("Clearing Google Tasks to decongest checklist schedule...", "info")
+    add_log("Clearing synced tasks from Google Tasks / Calendar...", "info")
 
     del_stats = gcal_sync.clear_all_synced_items(assignments)
-    has_scanned_in_session = False  # Reset dashboard state back to 0
 
-    add_log(f"Decongested Google Tasks: Deleted {del_stats['tasks_deleted']} task(s).", "success")
-    add_log("Dashboard metrics & graph reset to clean start state.", "info")
+    add_log(f"Cleared Google Tasks: Deleted {del_stats['tasks_deleted']} cloud task(s). All {len(assignments)} scanned assignments safely preserved in local database.", "success")
 
     return jsonify({
         "success": True,
-        "message": f"Deleted {del_stats['tasks_deleted']} Google tasks. Dashboard reset.",
+        "message": f"Deleted {del_stats['tasks_deleted']} task(s) from Google Calendar/Tasks. Scanned assignments preserved in database.",
         "stats": del_stats,
     })
 
