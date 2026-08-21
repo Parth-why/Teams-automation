@@ -223,7 +223,7 @@ def run_web_app(host: str = "127.0.0.1", port: int = 5000) -> None:
     import webbrowser
     url = f"http://{host}:{port}"
     print("\n" + "=" * 70)
-    print(" 🚀 SMART TEAMS & GOOGLE TASKS SYNC HUB - WEB APPLICATION")
+    print(" SMART TEAMS & GOOGLE TASKS SYNC HUB - WEB APPLICATION")
     print("=" * 70)
     print(f" URL: {url}")
     print(" Press Ctrl+C in terminal to stop server.")
