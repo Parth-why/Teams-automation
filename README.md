@@ -1,79 +1,105 @@
 # Smart Teams Assignment Tracker
 
-A modular, desktop checklist application that automatically retrieves assignments from Microsoft Teams (using Microsoft Graph Education APIs or authorized browser fallback), tracks deadlines, and provides desktop notifications.
+<p align="center">
+  <strong>A Python desktop project for bringing Microsoft Teams assignments and deadlines into one place.</strong>
+</p>
+
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img alt="Microsoft Teams" src="https://img.shields.io/badge/Microsoft%20Teams-6264A7?style=for-the-badge&logo=microsoftteams&logoColor=white" />
+  <img alt="Desktop app" src="https://img.shields.io/badge/Desktop-CustomTkinter-2563EB?style=for-the-badge" />
+</p>
 
 ---
 
-## Features (Planned & Incremental)
+## Overview
 
-- **Microsoft Account Authentication**: Secure OAuth2 via MSAL (VIT Microsoft account).
-- **Dual Data Source Support**:
-  - Primary: Microsoft Graph API (`/education/me/assignments`).
-  - Fallback: Legitimate Selenium browser session if tenant consent restricts Graph access.
-- **Local Persistence & Offline Access**: Caches assignments locally in `data/assignments.json`.
-- **Deadline Reminders**: Sends desktop notifications 2 days prior to assignment deadlines.
-- **Desktop Checklist Widget**: Modern, responsive UI built with `CustomTkinter`.
-- **Periodic Background Sync**: Automatically checks for updates via `APScheduler`.
+**Smart Teams Assignment Tracker** is a modular Python desktop project intended to retrieve assignment information from Microsoft Teams, organise deadlines, and notify students before work is due.
 
----
+The intended workflow is:
 
-## Project Structure
+1. Authenticate with an authorised Microsoft account.
+2. Retrieve assignment information from Teams.
+3. Normalise assignment titles, classes, due dates, and links.
+4. Display upcoming work in a desktop checklist.
+5. Cache assignment data for temporary network interruptions.
+6. Send a reminder two days before a deadline while preventing duplicate notifications.
 
-```text
-SmartAssignmentTracker/
-│
-├── main.py                   # Application entry point and orchestrator
-├── config.py                 # Centralized configuration and logging setup
-├── auth.py                   # (Stage 2) Microsoft Authentication via MSAL
-├── teams_api.py              # (Stage 3) Microsoft Graph assignment retrieval
-├── browser_fetcher.py        # (Stage 4) Selenium browser fallback fetcher
-├── assignment_manager.py     # Central business logic and normalization
-├── storage.py                # Local JSON persistence and caching
-├── widget.py                 # CustomTkinter desktop checklist GUI
-├── scheduler.py              # APScheduler background sync engine
-├── notifications.py          # Desktop notification handler
-│
-├── data/                     # Local data storage (assignments.json)
-├── logs/                     # Application logs (app.log)
-├── assets/                   # Icons and UI assets
-│
-├── requirements.txt          # Project dependencies
-├── .gitignore                # Git ignore configuration
-└── README.md                 # Project documentation
-```
+> **Development status:** The existing project notes identify environment/setup as the completed stage. The integrations and application features below are part of the project plan; do not assume every feature is already implemented.
 
----
+## Planned capabilities
 
-## Setup & Installation
+- Microsoft account authentication using MSAL.
+- Microsoft Graph Education API integration, subject to tenant permissions and API availability.
+- An authorised browser-automation fallback where appropriate.
+- Local JSON persistence and cached assignment data.
+- A CustomTkinter desktop checklist.
+- Periodic synchronisation with APScheduler.
+- Desktop deadline notifications.
+- Error handling for authentication, network failures, and incomplete assignment data.
 
-### 1. Prerequisites
-- Python 3.10+ (Tested on Python 3.12)
-- Windows OS
+## Architecture
 
-### 2. Setup Virtual Environment
+| Module | Responsibility |
+|---|---|
+| `main.py` | Application entry point and orchestration |
+| `config.py` | Configuration and logging |
+| `auth.py` | Microsoft authentication |
+| `teams_api.py` | Teams / Microsoft Graph retrieval |
+| `browser_fetcher.py` | Browser retrieval fallback |
+| `assignment_manager.py` | Assignment normalisation and business logic |
+| `storage.py` | Local persistence and caching |
+| `widget.py` | Desktop checklist interface |
+| `scheduler.py` | Periodic background synchronisation |
+| `notifications.py` | Deadline notification handling |
+
+Check the source code before relying on the implementation status of an individual module.
+
+## Requirements
+
+- Python 3.10 or newer
+- Windows (the current setup targets Windows)
+- An authorised Microsoft account
+- Microsoft tenant/API permissions when using Microsoft Graph
+
+## Setup
+
 ```powershell
+git clone https://github.com/Parth-why/Teams-automation.git
+cd Teams-automation
+
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-```
 
-### 3. Install Dependencies
-```powershell
 pip install -r requirements.txt
-```
-
-### 4. Run Stage 1 Environment Check
-```powershell
 python main.py
 ```
 
+The current README identifies `main.py` as the project entry point / environment check.
+
+## Development roadmap
+
+- [x] Stage 1 — Project setup and environment check
+- [ ] Stage 2 — Microsoft Graph feasibility and authentication
+- [ ] Stage 3 — Assignment normalisation and local storage
+- [ ] Stage 4 — Browser fallback, if required and permitted
+- [ ] Stage 5 — Desktop checklist interface
+- [ ] Stage 6 — Scheduler and notifications
+- [ ] Stage 7 — Integration, offline handling, and polish
+
+Update this checklist as each milestone is implemented and tested.
+
+## Privacy and security
+
+- Use only accounts and Teams data you are authorised to access.
+- Never commit credentials, access tokens, client secrets, or personal assignment data.
+- Keep local runtime data and logs out of tracked source files where possible.
+- Review Microsoft tenant policies before enabling API or browser automation.
+
+## Project goal
+
+Make assignment tracking less dependent on repeatedly checking Teams manually, while keeping the application modular, understandable, and maintainable.
+
 ---
 
-## Development Status
-
-- [x] **Stage 1**: Project Setup & Environment Check
-- [ ] **Stage 2**: Microsoft Graph Feasibility Test & Authentication (`auth.py`, `teams_api.py`)
-- [ ] **Stage 3**: Assignment Data Normalization & Local Storage (`storage.py`, `assignment_manager.py`)
-- [ ] **Stage 4**: Browser Fallback (if Graph restricted) (`browser_fetcher.py`)
-- [ ] **Stage 5**: Desktop Widget GUI (`widget.py`)
-- [ ] **Stage 6**: Scheduler & Notifications (`scheduler.py`, `notifications.py`)
-- [ ] **Stage 7**: Integration, Offline Handling, and Final Polishing
+<p align="center">Built by <a href="https://github.com/Parth-why">Parth</a></p>
